@@ -1,6 +1,6 @@
 # Starknet-Course
 
-محتوى الدورة التدريبية **إثباتات المعرفة الصفرية ZK-STARK وشبكة Starknet** في **[Web3Arabs](https://www.web3arabs.com)** - الأفضل لمطورين Web3 للتعرف على احد أهم حلول ZK-Rollups وتعلم لغة Cairo والبدء في بناء المشاريع على شبكة Starknet.
+محتوى الدورة التدريبية **إثباتات المعرفة الصفرية ZK-STARK وشبكة Starknet** في **[Web3Arabs](https://www.starknet.luvnft.com)** - الأفضل لمطورين Web3 للتعرف على احد أهم حلول ZK-Rollups وتعلم لغة Cairo والبدء في بناء المشاريع على شبكة Starknet.
 
 ## المساهمة
 

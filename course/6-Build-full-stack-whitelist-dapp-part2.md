@@ -14,7 +14,7 @@ Run this command in your starknet_whitelist project folder:
 bash
 Copy code
 npx create-next-app@latest frontend
-<img src="https://web3arabs.com/courses/starknet/dapp/create-next.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/create-next.png"/>
 Now, we need to install starknet.js and get-starknet, which will help us interact with the smart contract, send transactions, and connect the wallet to the website. Type this in the terminal:
 
 Note: Make sure to run this command in the frontend folder related to the Next.js project.
@@ -29,7 +29,7 @@ Copy code
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<img src="https://web3arabs.com/courses/starknet/dapp/globals-css.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/globals-css.png"/>
 Now, go to the page.js file in the app folder and paste this code, following the explanations in the comments above each line:
 
 jsx

@@ -14,19 +14,19 @@ Go to <a href="https://remix.ethereum.org" target="_blank">Remix's website from 
 
 Once the website is open, the interface will look like this:
 
-<img src="https://web3arabs.com/courses/starknet/remix.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix.png"/>
 This automatic environment only works for Ethereum projects. In this lesson, we're interacting with Starknet, so you'll go to Plugins by clicking on the button at the bottom left. After clicking on it, search for Starknet and then click on the Activate button to activate the Starknet environment:
 
-<img src="https://web3arabs.com/courses/starknet/remix-plugins.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-plugins.png"/>
 After activating the tool, you'll be prompted to give permissions to the tool. Click the Accept button:
 
-<img src="https://web3arabs.com/courses/starknet/remix-starknet-accept.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-starknet-accept.png"/>
 Then, go back to the files section to check if the environment has changed to cairo_scarb_sample:
 
-<img src="https://web3arabs.com/courses/starknet/remix-home.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-home.png"/>
 Now, you can create a file named contract.cairo in the hello_world folder:
 
-<img src="https://web3arabs.com/courses/starknet/remix-contract-file.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-contract-file.png"/>
 Let's get back to learning how to write smart contracts, and then we'll explain how to interact with the contract and deploy it on Starknet for testing.
 
 Writing Smart Contracts
@@ -99,24 +99,24 @@ When we want the function to write to the blockchain (store data), we'll pass se
 When we want the function to read from the blockchain (retrieve data), we'll pass self normally and take a copy of the contract state's data/variables and functions in the get function like this: self: @ContractState.
 That's not enough in this way. We need to try the smart contract in Remix and see how it works. Copy the final code above and paste it into the contract.cairo file that we created. Then click on the Starknet icon that we activated at the beginning of the lesson:
 
-<img src="https://web3arabs.com/courses/starknet/remix-contract-home.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-contract-home.png"/>
 Now click on Compile contract.cairo:
 
 Note: If the button does not appear like this, click on the box containing the word Compile, and then reopen it.
 
-<img src="https://web3arabs.com/courses/starknet/remix-compile-contract.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-compile-contract.png"/>
 After compiling the code, we'll create a Declare for the smart contract by clicking on Declare contract.cairo:
 
 The declare will send the code to the network, but that doesn't mean everything is done.
 
-<img src="https://web3arabs.com/courses/starknet/remix-contract-declare.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-contract-declare.png"/>
 After sending the code to the network, we want to create an instance of it on the network so we can interact with the code as a smart contract. Now click on Deploy:
 
-<img src="https://web3arabs.com/courses/starknet/remix-contract-deploy.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-contract-deploy.png"/>
 Interacting with the Smart Contract
 After deploying the smart contract, you'll notice that you can read and write to the smart contract like this:
 
-<img src="https://web3arabs.com/courses/starknet/remix-contract-get.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/remix-contract-get.png"/>
 After clicking on call, it executed the get function and displayed the data below as you can see. There's a value in this format "0x0" because it's displaying the data in hex format. During the conversion to int, it means 0. You can try it in the box below:
 
 For writing, you'll select Write and run the set function, passing the value as normal.

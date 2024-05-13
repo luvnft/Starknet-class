@@ -19,7 +19,7 @@ Initialize the Scarb project by entering this command:
 bash
 Copy code
 scarb init
-<img src="https://web3arabs.com/courses/starknet/dapp/create-project.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/create-project.png"/>
 Smart Contract
 
 To set up and run smart contracts, first open the Scarb.toml file and make it look like this:
@@ -39,7 +39,7 @@ starknet = "2.3.1"
 sierra-replace-ids = true
 
 [[target.starknet-contract]]
-<img src="https://web3arabs.com/courses/starknet/dapp/scarb-toml.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/scarb-toml.png"/>
 Now, create a file named whitelist.cairo in the src folder and write the smart contract in this file.
 
 The idea of the smart contract is to add people to a whitelist assuming we have a product, and the first 10 people or any number we specify can get the product for free.
@@ -105,7 +105,7 @@ mod Whitelist {
     }
   }
 }
-<img src="https://web3arabs.com/courses/starknet/dapp/whitelist-file.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/whitelist-file.png"/>
 Let's explain each line:
 
 ● Line 1: We import ContractAddress from starknet, which acts as a data type.
@@ -131,7 +131,7 @@ As we discussed earlier, the main file for reading Cairo language files in the s
 rust
 Copy code
 mod whitelist;
-<img src="https://web3arabs.com/courses/starknet/dapp/lib-file.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/lib-file.png"/>
 Creating RPC API
 
 To start interacting with your wallet account and deploying your smart contract, we need an RPC API that will act as a node (computer).
@@ -140,15 +140,15 @@ We will use Infura to get the API for the Starknet network. So, create an accoun
 
 After you finish creating an account and are redirected to the dashboard, create a project and add a name to it, then click CREATE:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/infura-create-project.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/infura-create-project.png"/>
 After creating the project, you will see the networks you want to run. Scroll down a bit and choose the GOERLI network in Starknet:
-<img src="https://web3arabs.com/courses/starknet/dapp/infura-select-goerli.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/infura-select-goerli.png"/>
 After selecting the network, click on "Save changes" at the top:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/infura-save.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/infura-save.png"/>
 After saving the changes, you will be redirected back to the page containing the link specific to your project. Save this link on your device because we will need it soon:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/infura-api.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/infura-api.png"/>
 Connecting the Wallet to the Project
 
 To connect your wallet account to the project, we'll create the wallet signature in the keystore and then easily retrieve the wallet data.
@@ -163,7 +163,7 @@ And on Mac and Linux:
 bash
 Copy code
 mkdir -p ~/.starkli-wallets/deployer
-<img src="https://web3arabs.com/courses/starknet/dapp/create-wallet-folder.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/create-wallet-folder.png"/>
 Now, create a keystore file by running this command:
 
 bash
@@ -176,7 +176,7 @@ Copy code
 starkli signer keystore from-key ~/.starkli-wallets/deployer/keystore.json
 You'll be prompted to enter the private key associated with your wallet. After entering it, you'll be asked for a password, which will be requested each time you interact with the wallet, such as deploying the smart contract. So, make sure to remember it. The keystore.json file will be created directly in the deployer folder.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/create-keystore.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/create-keystore.png"/>
 Now, retrieve the wallet account data simply by running this command:
 
 bash
@@ -189,7 +189,7 @@ Copy code
 starkli account fetch WALLET_ADDRESS --output ~/.starkli-wallets/deployer/account.json --rpc RPC_API
 Replace WALLET_ADDRESS with your public wallet address and RPC_API with the link you generated earlier.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/fetch-account.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/fetch-account.png"/>
 You'll notice that an account.json file has been created in the deployer folder.
 
 Setting up ENV Variables
@@ -212,7 +212,7 @@ set STARKNET_KEYSTORE=./starkli-wallets/deployer/keystore.json
 set STARKNET_RPC=RPC_API_URL
 Replace the RPC API link with your RPC_API variable.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/set-env.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/set-env.png"/>
 Note: Do not close the terminal. You'll need to add these variables again each time you close it.
 
 Compiling and Deploying the Smart Contract
@@ -222,7 +222,7 @@ Now, let's test and compile the smart contract by running this command:
 bash
 Copy code
 scarb build
-<img src="https://web3arabs.com/courses/starknet/dapp/scarb-build.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/scarb-build.png"/>
 You'll notice that a target folder has been created, containing a dev folder with 2 files.
 
 As mentioned in the previous lesson, to deploy the smart contract on the network, we need to send the code to the network through a process called Declare and then create an instance of it on the network to interact with it through Deploy.
@@ -237,7 +237,7 @@ And on Mac and Linux:
 bash
 Copy code
 starkli declare ~/.target/dev/starknet_whitelist_Whitelist.contract_class.json
-<img src="https://web3arabs.com/courses/starknet/dapp/declare-contract.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/declare-contract.png"/>
 After sending the code to the network, copy the Class hash and then deploy the smart contract on the network by running this command:
 
 bash
@@ -245,7 +245,7 @@ Copy code
 starkli deploy CLASS_HASH ARG
 Replace CLASS_HASH with the class hash generated when sending the smart contract code to the network. As for ARG, replace it with the values you want to pass in the smart contract. Since we passed the variable <span dir="ltr">_maxWhitelistedAddresses</span> in the smart contract, we'll pass a value for this variable.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/deploy-contract.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/deploy-contract.png"/>
 As you can see, we passed the value 10 for the <span dir="ltr">_maxWhitelistedAddresses</span> variable defined in the constructor function.
 
 Copy the address of your smart contract and go to <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a> and paste the smart contract address in the search bar to open it directly.
@@ -254,13 +254,13 @@ Accessing the ABI
 
 After opening your smart contract on <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a>:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/starkscan-contarct.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/starkscan-contarct.png"/>
 Click on Class Code/History:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/starkscan-abi.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/starkscan-abi.png"/>
 Now, copy the ABI by clicking the Copy API Code button, then go back to your project and create a file named abi.json. Paste everything you copied into this file:
 
-<img src="https://web3arabs.com/courses/starknet/dapp/abi-file.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/dapp/abi-file.png"/>
 We'll use this file in the next lesson when interacting with the smart contract in the front-end.
 
 As always, if you have any questions, feel stuck, or just want to say hello, join us on <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> or <a href="https://discord.gg/xTyByNRemx" target="_blank">Discord</a> 

@@ -30,7 +30,7 @@ Layer-two networks then unlock scalability benefits by computing a large number 
 Data Layer
 
 ##Data Layer##
-<img src="https://web3arabs.com/courses/starknet/data-layer.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/data-layer.png"/>
 
 When building the StarkNet stack from the bottom up, the first thing to consider is the data layer. The data layer is where all the data that can be verified can be stored, which can help us make sure that the current state on StarkNet is valid, and historical state can be fetched from Ethereum.
 
@@ -45,7 +45,7 @@ That's right, StarkNet does not use the EVM in order to use Solidity for smart c
 Application Layer
 
 ##Application Layer##
-<img src="https://web3arabs.com/courses/starknet/application-layer.png"/>
+<img src="https://starknet.luvnft.com/courses/starknet/application-layer.png"/>
 
 Moving up the stack, the next layer is the application layer.
 
