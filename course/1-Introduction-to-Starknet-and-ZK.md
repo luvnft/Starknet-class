@@ -1,65 +1,61 @@
-# مقدمة إلى مشروع Starknet و ZK
+#Introduction to Starknet and ZK#
 
-عبارة عن حل **ZK-Rollup** لا مركزي (وتسمى أيضًا Validity-Rollup). وتُعد StarkNet شبكة من الطبقة الثانية على شبكة Ethereum (الطبقة الأولى)، مما يتيح لشبكة Ethereum بالتوسع عبر بروتوكولات cryptographic.
+StarkNet is a decentralized ZK-Rollup solution (also called Validity-Rollup). It is a layer-two network on top of Ethereum (layer-one), allowing Ethereum to scale via cryptographic proofs.
 
-تم إطلاق Alpha من StarkNet على شبكة Mainnet في نوفمبر 2021؛ وفي سبتمبر 2022، تم إصدار StarkNet Alpha 0.10.0.
+StarkNet Alpha was launched on Mainnet in November 2021, and in September 2022, StarkNet Alpha 0.10.0 was released.
 
-تم إنشاء StarkNet بواسطة شركة StarkWare. تقوم شركة Starkware بتطوير حلول تعتمد على حلول STARK لعالم blockchain وهي مخترعة "ZK-STARKs"، والتي سنناقشها بعد قليل.
+StarkNet was created by the company StarkWare. Starkware develops STARK-based solutions for the blockchain world and is the inventor of "ZK-STARKs", which we will discuss shortly.
+But first, what are rollups?
 
-## لكن أولاً، ما هي حلول rollups؟
+Rollups are one of the most popular ways to solve the blockchain scalability problem.
 
-تعد حلول rollups إحدى الطرق الأكثر شيوعًا لحل مشكلة قابلية التوسع في blockchain.
+Rollups bundle transactions together into a single transaction, which is then submitted to the main blockchain (layer-one) as a single transaction. In other words, rollups handle computation and blockchain state storage off-chain and then submit transaction data to the mainnet. This reduces the amount of data that needs to be processed on the mainnet (layer-one).
 
-تقوم حلول rollups بتجميع المعاملات في معاملة واحدة، وبعد ذلك ترسل المعاملة إلى blockchain الرئيسي (الطبقة الأولى) وكأنها معاملة واحدة. بمعنى آخر، تتعامل حلول rollups مع الحسابات وتخزين حالة blockchain خارج السلسلة الاساسية ثم ترسل بيانات المعاملات إلى الشبكة الرئيسية. يؤدي هذا إلى تقليل البيانات التي سيتم التعامل معها في الشبكة الرئيسية (الطبقة الأولى).
+There are two main categories of rollups today: Optimistic Rollups and ZK-Rollups.
 
-هناك فئتان رئيسيتان من حلول rollups اليوم هما Optimistic Rollups و ZK-Rollups.
+You can learn a lot more about layer-two solutions and rollups in our course Introduction to Layer2 and Rollups.
+Starknet and the Validity Rollup
 
-يمكنك الحصول على الكثير من المعلومات حول حلول الطبقة الثانية وحلول rullups في كورس <a href="/courses/60860506-8430-4691-8dbe-c9524ff969ea/lessons" target="_blank">**مقدمة إلى Layer2 و Rollups**</a>.
+As mentioned, StarkNet is a layer-two Validity ZK Rollup solution - often referred to as a type of Zero-Knowledge Rollup or (zkRollup). It offers high throughput and low costs and inherits the security benefits of the Ethereum layer-one.
 
-## شبكة Starknet وحل Validity Rollup
+The basic idea is simple. Given a Sudoku puzzle, it is much easier to verify a potential solution than it is to solve the puzzle from scratch. If we could convince people that "the puzzle is solved" instead of going through the details, we could save a lot of computation by having one person solve the puzzle and broadcast it for everyone else to verify. Using this strategy, solving the puzzle becomes a one-time task.
 
-كما تحدثنا سابقاً StarkNet هي احد حلول Validity ZK Rollup في الطبقة الثانية - يشار إليها عادة كنوع من Zero-Knowledge Rollup او (zkRollup). فهو يوفر انتاجية عالية وتكاليف منخفضة ويرث مزايا الأمان من الطبقة الأولى من Ethereum.
+Using this analogy, StarkNet helps scale Ethereum by replacing the heavy computation (transaction execution) on layer-one with a much lighter and cheaper verification using ZK-STARK proofs that are computed off-chain (off the layer-one chain).
 
-الفكرة الأساسية بسيطة. بالنظر إلى لغز Sudoku، فمن الأسهل التحقق من الحل المحتمل بدلاً من حل اللغز من الصفر. إذا تمكنا من إقناع الناس بعبارة "تم حل اللغز" بدلاً من التفصيل، فيمكننا توفير الكثير من الحسابات من خلال جعل شخص واحد يحل اللغز ويبثه إلى الجميع للتحقق منه. باستخدام هذه الإستراتيجية، يصبح حل اللغز مهمة لمرة واحدة.
+zk-STARK stands for Zero-Knowledge Scalable Transparent Argument of Knowledge. It is a Zero-Knowledge (ZK) proof system that was introduced as an alternative to zk-SNARKs in 2018, also invented by the Starkware team.
 
-باستخدام هذا التشبيه، تساعد StarkNet على توسيع نطاق Ethereum عن طريق استبدال الحساب الثقيل (تنفيذ المعاملة) على الطبقة الأولى بتحقق أخف وأرخص باستخدام أدلة ZK-STARKs التي يتم حسابها خارج السلسلة (خارج سلسلة الطبقة الأولى).
+STARKs power StarkNet's scalability. Developers can take computation and storage off-chain (the Ethereum layer-one) to the StarkNet layer-two, and then STARK proofs can be generated that verify the correctness of those off-chain computations and posted to the Ethereum layer-one chain.
 
-يرمز zk-STARK إلى حجة المعرفة الشفافة القابلة للتطوير ذات المعرفة الصفرية (Zero-Knowledge Scalable Transparent Argument of Knowledge). وهو نظام إثبات المعرفة الصفرية (ZK) الذي تم تقديمه كبديل لنظام zk-SNARKs في عام 2018، وتم اختراعه من قبل فريق Starkware أيضًا.
+Layer-two networks then unlock scalability benefits by computing a large number of transactions in a batch using STARKs and then using a single STARK proof to attest to their validity on layer-one. This provides a low gas cost per individual transaction on the layer-two network.
+Data Layer
 
-تدعم STARKs تقنية قابلية التوسع لـ StarkNet. يمكن للمطورين أخذ التخزين والحساب خارج السلسلة (الطبقة الأولى Ethereum) إلى الطبقة الثانية من StarkNet، ومن ثم يمكن إنشاء أدلة STARK التي تتحقق من دقة تلك الحسابات خارج السلسلة ونشرها على سلسلة الطبقة الأولى في  Ethereum.
-
-تقوم شبكات الطبقة الثانية بعد ذلك بفتح فوائد قابلية التوسع عن طريق حساب عدد كبير من المعاملات في دفعة واحدة باستخدام STARKs ثم استخدام دليل STARK واحد لتأكيد صلاحيتها على الطبقة الأولى. وهذا يوفر تكلفة غاز منخفضة لكل معاملة فردية على شبكة الطبقة الثانية.
-
-## طبقة البيانات - Data Layer
-
+##Data Layer##
 <img src="https://web3arabs.com/courses/starknet/data-layer.png"/>
 
-عند بناء حزمة StarkNet من الأسفل إلى الأعلى، أول شيء يجب مراعاته هو طبقة البيانات. طبقة البيانات هي المكان الذي يمكن تخزين جميع البيانات التي يمكن التحقق منها، مما يمكن أن يساعدنا في التأكد من أن الحالة الحالية على StarkNet صالحة، ويمكن جلب الحالة التاريخية من Ethereum.
+When building the StarkNet stack from the bottom up, the first thing to consider is the data layer. The data layer is where all the data that can be verified can be stored, which can help us make sure that the current state on StarkNet is valid, and historical state can be fetched from Ethereum.
 
-نظرًا لأن StarkNet يستخدم الطبقة الأولى من شبكة Ethereum لنشر البراهين، فإنه يستخدم Ethereum كطبقة بيانات للتحقق من البرهان وتوافر البيانات (data availability).
+Since StarkNet uses the Ethereum layer-one to post proofs, it uses Ethereum as its data layer for proof verification and data availability.
+Execution Layer
 
-## طبقة التنفيذ - Execution Layer
+The execution layer is where the transactions submitted by users are actually executed, and proofs are generated to be posted to the data layer.
 
-طبقة التنفيذ هي المكان الذي يتم فيه بالفعل تنفيذ المعاملات التي يرسلها المستخدمون، ويتم إنشاء البراهين لنشرها في طبقة البيانات.
+In the case of StarkNet, the execution layer is on the StarkNet layer-two network. StarkNet leverages the Cairo language - a proven, efficient, zkRollup-friendly programming language for smart contracts - to express smart contract execution with chain state.
 
-في حالة StarkNet، طبقة التنفيذ في الطبقة الثانية من شبكة StarkNet. تستفيد شبكة StarkNet من لغة Cairo - وهي لغة برمجة مُثبتة وفعالة ومتوافقة مع zkRollup للعقود الذكية - للتعبير عن تنفيذ العقود الذكية مع كُتل السلسلة.
+That's right, StarkNet does not use the EVM in order to use Solidity for smart contracts as we are used to. Instead, it uses the CairoVM to execute Cairo smart contracts. This is why we will learn some Cairo basics during this course.
+Application Layer
 
-بالضبط، StarkNet لا يستخدم EVM من أجل إستخدام لغة Solidity في العقود الذكية كما أعتدنا سابقاً. وبدلاً من ذلك، يستخدم CairoVM لتنفيذ العقود الذكية بلغة Cairo. ولهذا السبب سنقوم بتعلم بعض اساسيات لغة Cairo خلال هذه الدورة التعليمية.
-
-## طبقة التطبيقات - Application Layer
-
+##Application Layer##
 <img src="https://web3arabs.com/courses/starknet/application-layer.png"/>
 
-بالمضي قدمًا، الخطوة التالية في الأعلى هي طبقة التطبيق.
+Moving up the stack, the next layer is the application layer.
 
-طبقة التطبيقات هي المكان الذي تدخل فيه. بناء العقود، وإنشاء التطبيقات اللامركزية، والأدوات أعلى StarkNet حتى يكون لدى المستخدمين شيء لاستخدامه.
+The application layer is where you come in. Building contracts, creating decentralized applications, and tooling on top of StarkNet so that users have something to use.
+Transport Layer
 
-## طبقة النقل - Transport Layer
+The final layer is the transport layer. This is how transactions created by users are communicated to the layer-two network to create state changes on the blockchain, and eventually post the proof to layer-one.
 
-الخطوة الأخيرة هي طبقة النقل. هذه هي الطريقة التي يتم بها توصيل المعاملات التي أنشأها المستخدمون إلى شبكة الطبقة الثانية لإنشاء تغيير الحالة على blockchain، ثم نشر الإثبات على الطبقة الأولى في النهاية.
+This is achieved through users being able to communicate with execution layer nodes that are either run by themselves or by an RPC provider. StarkNet execution layer nodes provide a JSON-RPC interface, similar to Ethereum nodes, through which user wallets or applications can communicate with the rest of the network.
 
-يتم تحقيق ذلك من خلال قدرة المستخدمين على التواصل مع عقد طبقة التنفيذ التي يتم تشغيلها إما بأنفسهم أو بواسطة موفر RPC. توفر عُقد طبقة التنفيذ StarkNet واجهة JSON-RPC، مشابهة لعُقد Ethereum، والتي من خلالها يمكن لمحافظ المستخدم أو التطبيقات التواصل مع بقية الشبكة.
+And with that, we have covered the full StarkNet stack!
 
-وبهذا نكون قد قمنا بتغطية مجموعة StarkNet بأكملها!
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+As always, if you have any questions, get stuck, or just want to say hi, join us on Discord https://nftv.luvnft.com and we will be more than happy to help!

@@ -1,77 +1,70 @@
-# كتابة عقود ذكية بواسطة لغة Cairo
+Writing Smart Contracts using the Cairo Language
 
-بعد أن قمنا بتعلم أساسيات لغة Cairo في الدرس السابق دعونا نقوم بتعلم طريقة كتابة العقود الذكية في Starknet بإستخدام لغة Cairo.
+Now that we've learned the basics of the Cairo language in the previous lesson, let's learn how to write smart contracts on Starknet using the Cairo language.
 
-بالضبط! نحن بالحاجة إلى معرفة بعض الأوامر والشروط لكتابة عقود ذكية بإستخدام الأساسيات التي طرحها في الدرس السابق.
+Exactly! We need to understand some commands and conditions for writing smart contracts using the basics introduced in the previous lesson.
 
-## بيئة التطوير
+Development Environment
 
-افضل طريقة للتعلم هي البناء ورؤية النتائج بشكل مباشر فلذلك في هذا الدرس لن نقوم بإستخدام اي من الادوات السابق التي قمنا بإعدادها بل سنقوم بإستخدام موقع **Remix** الذي تطرقنا إليه في الكورسات التعليمية السابقة أثناء تعلم لغة **Solidity**.
+The best way to learn is by building and seeing the results directly. Therefore, in this lesson, we won't use any of the previous tools we prepared. Instead, we'll use the Remix website, which we covered in previous educational courses while learning the Solidity language.
 
-**لماذا Remix؟** في هذا الدرس سنقوم بكتابة عقود ذكية على **Starknet** فنحن بالحاجة إلى رفع العقود الذكية بكل سهولة دون اي تعقيد واختبارها بشكل مجاني. بواسطة **Remix** سنقوم بتثبيت أداة **Starknet** والتي ستوفر بيئة عمل كاملة للتعامل مع العقود الذكية ونشرها بكل سهولة.
+Why Remix? In this lesson, we'll be writing smart contracts on Starknet, so we need an easy way to deploy smart contracts without any complexity and test them for free. With Remix, we'll install the Starknet tool, which will provide a complete working environment for interacting with smart contracts and deploying them easily.
 
-ستذهب <a href="https://remix.ethereum.org" target="_blank">إلى موقع Remix من هنا</a> وستقوم بإعداد البيئة هكذا.
+Go to <a href="https://remix.ethereum.org" target="_blank">Remix's website from here</a> and set up the environment like this.
 
-بمجرد فتح الموقع ستكون الواجهة بهذا الشكل:
+Once the website is open, the interface will look like this:
 
 <img src="https://web3arabs.com/courses/starknet/remix.png"/>
-
-البيئة التلقائية هذه تعمل فقط على مشاريع Ethereum وفي هذا الدرس نقوم بالتفاعل مع **Starknet** فستذهب الى **Plugins** عن طريق النقر على الزر في الاسفل على اليسار. بعد النقر عليها ستقوم بالبحث عن Starknet ومن ثم النقر على زر **Activate** لتفعيل بيئة **Starknet**:
+This automatic environment only works for Ethereum projects. In this lesson, we're interacting with Starknet, so you'll go to Plugins by clicking on the button at the bottom left. After clicking on it, search for Starknet and then click on the Activate button to activate the Starknet environment:
 
 <img src="https://web3arabs.com/courses/starknet/remix-plugins.png"/>
-
-بعد الإنتهاء من تفعيل الأداة مباشرة سيظهر لك طلب الموافقة على إعطاء الصلاحيات للأداة ستقوم بالنقر على الزر **Accept**:
+After activating the tool, you'll be prompted to give permissions to the tool. Click the Accept button:
 
 <img src="https://web3arabs.com/courses/starknet/remix-starknet-accept.png"/>
-
-بعد ذلك ستعود إلى قسم الملفات للتحقق من تغير البيئة إلى **cairo_scarb_sample**:
+Then, go back to the files section to check if the environment has changed to cairo_scarb_sample:
 
 <img src="https://web3arabs.com/courses/starknet/remix-home.png"/>
-
-يمكنك الآن إنشاء ملف بإسم **contract.cairo** في المجلد **hello_world**:
+Now, you can create a file named contract.cairo in the hello_world folder:
 
 <img src="https://web3arabs.com/courses/starknet/remix-contract-file.png"/>
+Let's get back to learning how to write smart contracts, and then we'll explain how to interact with the contract and deploy it on Starknet for testing.
 
-دعونا نعود إلى تعلم كتابة العقود الذكية ومن ثم بعد ذلك سنقوم بتوضيح طريقة التفاعل مع العقد ونشره على Starknet واختباره.
+Writing Smart Contracts
 
-## كتابة العقود الذكية
+There's no difference in writing code in the Cairo language, but when writing smart contracts, there are some strict rules related to Starknet that must be followed to create the smart contract, store data, execute functions, and more.
 
-ليس هناك أي اختلاف في طريقة كتابة كود لغة **Cairo** ولكن أثناء كتابة العقود الذكية هناك بعض القواعد الصارمة المتعلقة في Starknet التي يجب تنفيذها من اجل ان يتم إنشاء العقد الذكي وتخزين البيانات وتشغيل الدوال وغيرها…
+When starting to write a smart contract, we'll use modules - Modules, and then within these modules, we'll add the functions and structures we want to execute.
 
-عند البدء في كتابة العقد الذكي سيتم إستخدام الوحدات - Modules ومن ثم في دخل هذه الوحدات نقوم بإضافة الدوال والهياكل التي نريد تشغيله
+Defining the smart contract:
 
-**تعريف العقد الذكي:**
-
-```rust
+rust
+Copy code
 #[starknet::contract]
 mod Contract {
 
 }
-```
+When building a smart contract, we create a mod which represents the modules, and then add the name of the smart contract. For the first line, it's added to inform the Starknet compiler to treat the module (mod) as a smart contract and not just a mod.
 
-عند بناء عقد ذكي نقوم بإنشاء **mod** والتي تعبر عن الوحدات ومن ثم إضافة إسم العقد الذكي. بالنسبة إلى السطر الأول يتم إضافته من أجل إعلام مُشغل Starknet بالتعامل مع الوحدة (mod) على أساس أنها عقد ذكي وليس مجرد mod.
+Storing data in the smart contract on Starknet differs from Solidity. In Solidity, each variable we define is a slot in memory, but it's different in Starknet. For this reason, we'll use a struct named Storage from Starknet, and each variable we define in the struct is a slot/room in the smart contract's memory or blockchain.
 
-تخزين البيانات في العقد الذكي في Starknet يختلف عن Solidity. في Solidity كل متغير نقوم بتعريفه هو خانة في الذاكرة, ولكن الأمر يختلف في starknet لسبب انه غير ممكن تعريف المتغيرات في الوحدات في **Cairo** ولهذا السبب سنقوم بإستخدام **struct** بإسم **Storage** من Starknet وكل متغير نقوم بتعريفه في struct فهو خانة/غرفه في ذاكرة العقد الذكي أو blockchain.
+The smart contract will look like this:
 
-**سيصبح العقد الذكي بهذا الشكل:**
-
-```rust
+rust
+Copy code
 #[starknet::contract]
 mod Contract {
     
     #[storage]
     struct Storage {
-        stored_date: u128,
+        stored_data: u128,
     }
 
 }
-```
+We've created a struct named Storage to define places to store data in the blockchain. Regarding the comment #[storage], its purpose is to inform the starknet compiler to run the required code and allow it to interact with the blockchain's state, such as allowing data storage in variables afterwards and anything else we want to do. Then, we defined a slot in the blockchain called stored_data to store a numerical value of type u128.
 
-قمنا بإنشاء **struct** بإسم **Storage** من أجل تعريف أماكن لتخزين البيانات في blockchain. وبالنسبة للتعليق <span dir="ltr">**#[storage]**</span> الغرض منه هو إخبار مُترجم **starknet** بأن يقوم بتشغيل الكود المطلوب ويسمح له بالتفاعل مع حالة blockchain مثل السماح في تخزين البيانات في المتغيرات بعد ذلك وكل ما نريد فعله. وبعد ذلك قمنا بتعريف خانة في **blockchain** تُدعى **stored_data** لتخزين قيمة عددية من النوع **u128**.
-
-نحن بالحاجة إلى إنشاء دالة تعمل على تخزين البيانات التي نريد تخزينها في المتغير **stored_data** بحيث يصبح العقد الذكي بهذا الشكل:
-
-```rust
+We need to create a function that stores the data we want to store in the stored_data variable. So, the smart contract will look like this:
+rust
+Copy code
 #[starknet::contract]
 mod Contract {
     #[storage]
@@ -84,91 +77,59 @@ mod Contract {
         self.stored_data.write(number);
     }
 }
-```
+Since the purpose of the function we want to create is to store data and not return data, we created an external function called set in line 9, passing 2 parameters:
 
-بما أن الهدف من الدالة التي نريد إنشائها هو تخزين البيانات وليس إرجاع البيانات قمنا بإنشاء دالة خارجية تُدعى **set** في **السطر 9** و قمنا بتمرير 2 بيانات وهم:
+self: Have you ever thought about how we can store data in the blockchain? It's necessary to access the entire contract's state, so we created self and made its type ContractState, allowing self to store the entire state of the smart contract from external functions and variables. Before writing self, we added ref which allows us to get a reference or copy of the contract's state/data and modify it without any problems.
+number: It's the value we want to input into the function and then store.
+After creating the function, we added a command to store the number value in the stored_data variable. As you can see, to access the variable, we used self and then the variable name stored_data. Since we want to store the data to the contract, we added write(number), which means writing the number value to the stored_data variable.
 
-- **self:** هل فكرت كيف يمكننا تخزين البيانات في **blockchain**؟ الأمر بالحاجة في الوصول الى حالة العقد بالكامل ولهذا السبب تم إنشاء **self** وجعلنا نوعها **ContractState** والذي يسمح إلى **self** بتخزين حالة العقد الذكي بالكامل من دوال خارجية ومتغيرات. وقبل كتابة **self** قمنا بإضافة **ref** والتي تسمح لنا بأن نحصل على مرجع او نسخة من حالة/بيانات العقد الذكي والتعديل عليها دون أي مشاكل.
-- **number:** هي القيمة التي نريد إدخالها في الدالة ومن ثم تخزينها.
+As for line 8: #[external(v0)] was added to inform starknet that it's an external function that will be executed generally for everyone.
 
-بعد إنشاء الدالة قمنا بإضافة أمر تخزين قيمة **number** في المتغير **stored_data**. وكما تلاحظ من أجل الوصول إلى المتغير قمنا بإستخدام **self** ومن ثم اسم المتغير **stored_data**. وبما أن ما نريد القيام به هو تخزين البيانات إلى العقد قمنا بإضافة <span dir="ltr">**write(number)**</span> والتي تعني كتابة قيمة **number** في المتغير **stored_data**.
+It might seem strange, but read it again and in the upcoming examples and when running the contract, you'll understand everything.
 
-بالنسبة إلى **السطر 8**: تم إضافة <span dir="ltr">#[external(v0)]</span> والتي تقوم بإخبار **starknet** بأنها **دالة خارجية** سيتم تشغيلها بشكل عام للجميع.
+Now that we've created a function to store data in the stored_data variable, we now need a function to retrieve the data from the variable. This will make the smart contract look like this:
 
-ربما يبدو الأمر غريب ولكن قم بقرأة ذلك مجدداً وفي الامثلة القادمة وعند تشغيل العقد ستقوم بفهم كل شيء.
+The command is similar to the previous function, but since we want to return data, we've created a function called get and passed self to it. However, as you can see, we didn't add ref like the previous time, because we don't want to modify the data in the contract. Instead, we added @ before ContractState, which gives us a copy of the contract state with variables and functions in the get function, but we can't modify the data. We only take a copy of the contract state to view the data.
 
-بعد أن قمنا بإنشاء دالة للتخزين في المتغير **stored_data**. نحن بالحاجة الآن إلى دالة من أجل استدعاء البيانات من المتغير بحيث يصبح العقد الذكي بهذا الشكل:
+After creating the function, we added the command to retrieve the stored value in the stored_data variable. As you can see, to access the variable, we used self and then the variable name stored_data. Since what we want to do is read the data and not write, we added read(), which means reading the value stored in the stored_data variable.
 
-```rust
-#[starknet::contract]
-mod Contract {
-    #[storage]
-    struct Storage {
-        stored_data: u128
-    }
+We can conclude something:
 
-    #[external(v0)]
-    fn set(ref self: ContractState, number: u128) {
-        self.stored_data.write(number);
-    }
-
-    #[external(v0)]
-    fn get(self: @ContractState) -> u128 {
-        self.stored_data.read()
-    }
-}
-```
-
-الأمر مشابه للدالة السابقة ولكن بما أننا نريد إرجاع بيانات قمنا بإنشاء دالة تُدعى **get** وقمنا بتمرير **self** ولكن كما تلاحظ لم نقوم بإضافة **ref** مثل المره السابقه والسبب لأننا لا نريد التعديل على البيانات في العقد ولكن قمنا بإضافة **@** قبل **ContractState** والتي تقوم بإعطاء نسخة من حالة العقد من متغيرات ودوال في الدالة **get** ولكن لا نستطيع التعديل على البيانات. فقط نأخذ نسخة من حالة العقد لعرض البيانات.
-
-بعد إنشاء الدالة قمنا بإضافة أمر إستدعاء القيمة المخزنة في المتغير **stored_data**. وكما تلاحظ من أجل الوصول إلى المتغير قمنا بإستخدام **self** ومن ثم اسم المتغير **stored_data**. وبما أن ما نريد القيام به هو قراءة البيانات وليس كتابة قمنا بإضافة <span dir="ltr">**read()**</span> والتي تعني قراءة القيمة المخزنة في المتغير **stored_data**.
-
-**يمكننا أن نستنتج شيئاً:**
-
-- عندما نريد ان نجعل الدالة تقوم بالكتابة على blockchain (تخزين البيانات) سنقوم بتمرير self كقابل للتعديل على blockchain بهذا الشكل: <span dir="ltr">**ref self: ContractState**</span>.
-- عندما نريد ان نجعل الدالة تقوم بالقراءة من blockchain (إستدعاء البيانات) سنقوم بتمرير self بشكل طبيعي وسنأخذ نسخة من بيانات/حالة العقد الذكي بهذا الشكل: <span dir="ltr">**self: @ContractState**</span>.
-
-الأمر لا يكفي بهذا الشكل. يجب علينا تجربة العقد الذكي في **Remix** ورؤية كيف يعمل العقد. قم بنسخ الكود النهائي الذي في الأعلى وقم بلصقه على الملف **contract.cairo** الذي قمنا بإنشائه. ومن ثم ستقوم بالنقر على علامة **Starknet** الذي قمنا بتفعيلها في بداية الدرس:
+When we want the function to write to the blockchain (store data), we'll pass self as modifiable on the blockchain like this: ref self: ContractState.
+When we want the function to read from the blockchain (retrieve data), we'll pass self normally and take a copy of the contract state's data/variables and functions in the get function like this: self: @ContractState.
+That's not enough in this way. We need to try the smart contract in Remix and see how it works. Copy the final code above and paste it into the contract.cairo file that we created. Then click on the Starknet icon that we activated at the beginning of the lesson:
 
 <img src="https://web3arabs.com/courses/starknet/remix-contract-home.png"/>
+Now click on Compile contract.cairo:
 
-ستقوم الآن بالنقر على **Compile contract.cairo**:
-
-**ملاحظة:** في حال لم يظهر الزر بهذا الشكل قم بالنقر على المربع الذي يحتوي على كلمة **Compile** ومن ثم قم بفتحه مجدداً.
+Note: If the button does not appear like this, click on the box containing the word Compile, and then reopen it.
 
 <img src="https://web3arabs.com/courses/starknet/remix-compile-contract.png"/>
+After compiling the code, we'll create a Declare for the smart contract by clicking on Declare contract.cairo:
 
-
-بعد الإنتهاء من تجميع الكود سنقوم بإنشاء **Declare** للعقد الذكي عن طريق النقر على **Declare contract.cairo**:
-
-تقوم **declare** بإرسال الكود إلى الشبكة ولكن هذا لا يعني أنه قد انتهى كل شيء.
+The declare will send the code to the network, but that doesn't mean everything is done.
 
 <img src="https://web3arabs.com/courses/starknet/remix-contract-declare.png"/>
-
-بعد الإنتهاء من إرسال الكود إلى الشبكة نريد إنشاء مثيل له على الشبكة حتى نتمكن من التفاعل مع الكود كعقد ذكي. الان ستقوم بالنقر على **Deploy**:
+After sending the code to the network, we want to create an instance of it on the network so we can interact with the code as a smart contract. Now click on Deploy:
 
 <img src="https://web3arabs.com/courses/starknet/remix-contract-deploy.png"/>
-
-### التفاعل مع العقد الذكي
-
-بعد الإنتهاء من نشر العقد الذكي ستلاحظ انه يمكنك القراءة والكتابة على العقد الذكي بهذا الشكل يبدو.
+Interacting with the Smart Contract
+After deploying the smart contract, you'll notice that you can read and write to the smart contract like this:
 
 <img src="https://web3arabs.com/courses/starknet/remix-contract-get.png"/>
+After clicking on call, it executed the get function and displayed the data below as you can see. There's a value in this format "0x0" because it's displaying the data in hex format. During the conversion to int, it means 0. You can try it in the box below:
 
-بعد النقر على **call** قام بتشغيل دالة **get** وقام بإظهار البيانات في الاسفل كما تلاحظ هناك قيمة بهذا الشكل "0x0" السبب هو يقوم بعرض البيانات من النوع **hex** وأثناء تحويلها الى **int** تعني 0. يمكنك تجربتها في المربع التالي:
+For writing, you'll select Write and run the set function, passing the value as normal.
 
+Constructors
+If you're a Solidity developer or have used OOP in other programming languages, you would have constantly used a Constructor.
 
-ومن أجل الكتابة ستقوم بتحديد على **Write** وستقوم بتشغيل دالة **set** وتمرير القيمة بشكل طبيعي للغاية.
+The Constructor function in smart contracts is used only once, during the deployment of the smart contract.
 
-### Constructors
+Create a file named constructors.cairo on Remix and let's check the following example:
 
-إذا كنت مطور **Solidity** او قد قمت بإستخدام **OOP** في لغات البرمجة الأخرى ستكون قد قمت بإستخدام **Constructor** بإستمرار.
-
-يتم إستخدام دالة **Constructor** في العقود الذكية لمرة واحدة فقط وهي اثناء نشر العقد الذكي.
-
-قم بإنشاء ملف بإسم **constructors.cairo** على **Remix** و دعونا نقوم بالتحقق من المثال التالي:
-
-```rust
+rust
+Copy code
 #[starknet::contract]
 mod Constructors {
     #[storage]
@@ -186,27 +147,25 @@ mod Constructors {
         self.stored_number.read()
     }
 }
-```
+As you can see, we declared a smart contract named constructors, then declared a struct Storage to store numerical values in the stored_number variable on the blockchain, just like we did in the previous example.
 
-كما تلاحظ قمنا بالإعلان عن عقد ذكي يُدعى **constructors** ومن ثم الإعلان عن **struct Storage** لتخزين قيمة عددية في المتغير **stored_number** على blockchain كما قمنا بفعل هذا في المثال السابق.
+However, in this smart contract, we want to store the data in the stored_number variable only during the deployment of the smart contract. It's considered a constant value afterward, and we don't want anyone to modify it. (There are many use cases for the constructor function in the future). We informed the Starknet compiler that the function is actually a constructor using #[constructor] above the function, passed the contract state in self, and since the function will modify the smart contract data, we added ref, then passed number in the function, which is the value we want to store in the stored_number variable.
 
-ولكن في هذا العقد الذكي نريد تخزين البيانات في المتغير **stored_number** أثناء نشر العقد الذكي فقط باعتبارها قيمة ثابتة ولا نريد من أحد التعديل عليها بعد ذلك. (هناك الكثير من حالات الإستخدام التي ستحتاجها من دالة **constructor** في المستقبل). قمنا بإعلام مترجم **Starknet** بأن الدالة هي في الواقع دالة **constructor** عن طريقة <span dir="ltr">#[constructor]</span> أعلى الدالة وقمنا بتمرير حالة العقد في **self** وبما ان الدالة ستقوم بالتعديل على بيانات العقد الذكي اضفنا **ref** ومن ثم قمنا بتمرير **number** في الدالة وهي القيمة التي نريد تخزينها في المتغير **stored_number**.
+Finally, we created an external function called get_number and passed a copy of the contract state in self using @ to read the value from the stored_number variable.
 
-في النهاية قمنا بإنشاء دالة خارجية تُدعئ **get_number** وقمنا بتمرير نسخة من حالة العقد في **self** عن طريق العلامة **@** لقراءة القيمة من المتغير **stored_number**.
+Now compile your code and send it to the Starknet network by clicking Declare. You'll notice that when deploying the smart contract (Deploy), it will ask you to enter a numerical value, thanks to the constructor function. Enter a numerical value and then click on Deploy to interact with the contract.
 
-قُم الان بتجميع الكود الخاص بك و إرساله إلى شبكة **Starknet** عن طريق النقر على **Declare**. ستلاحظ انه أثناء النقر نشر العقد الذكي (Deploy) سيطلب منك إدخال قيمة عددية وهذا بفضل دالة **constructor**. قُم بإدخال قيمة عددية ومن ثم النقر على **Deploy** من أجل التفاعل مع العقد.
+Note: When calling the value through Remix, it will appear in the bottom in hex format. You can copy it and convert it to a numerical value below:
 
-**ملاحظة:** أثناء إستدعاء القيمة بواسطة Remix سيظهر القيمة في الأسفل من النوع hex. يمكنك نسخها وتحويلها إلى قيمة عددية في الاسفل هنا:
+Mapping
+Mappings in Cairo work like hashmaps or dictionaries in other programming languages. They're used to store data in key-value pairs.
 
-### التعيين - Mapping
+Exactly! Key -> Value. It's one of the most important storage methods you need to know and will use extensively when building smart contracts, as it makes data handling extremely simple, allowing you to access data directly via the key and not requiring much gas expenditure.
 
-تعمل **Mappings** في **Cairo** مثل **hashmaps** أو القواميس في لغات البرمجة الأخرى. يتم استخدامها لتخزين البيانات في أزواج لكل قيمة مفتاح.
+In this example, we'll create a smart contract that stores people's data, covering many ideas with this example.
 
-بالضبط! **مفتاح -> قيمة**. أحد أهم طرق التخزين التي يجب عليك معرفتها والتي ستقوم باستخدامها بشكل كبير أثناء بناء العقود الذكية لكونها تجعل التعامل مع البيانات بسيطة للغاية بحيث يمكنك الوصول إلى البيانات عن طريق المفتاح بشكل مباشر بالإضافة إلى عدم الحاجة إلى صرف الكثير من الغازات.
-
-في هذا المثال سنقوم بإنشاء عقد ذكي يقوم بتخزين بيانات الاشخاص بحيث نقوم بتغطية العديد من الأفكار بواسطة هذا المثال.
-
-```rust
+rust
+Copy code
 #[starknet::contract]
 mod Mappings {
     use starknet::ContractAddress;
@@ -226,28 +185,23 @@ mod Mappings {
         self.myMap.read(address)
     }
 }
-```
+Let's explain each line:
 
-**دعونا نقوم بتوضيح كل سطر:**
+Line 1 - 2: We declared and created a smart contract called mappings.
+Line 3: We called ContractAddress from starknet, which is used as a data type and is an address.
+Line 5 - 8: We created struct Storage, which stores variables on the blockchain. In Line 7, we created a variable myMap that stores key-value pairs (mapping), where each value has its own key. As you can see, to declare a mapping, we used the word LegacyMap, then we made the type of the key ContractAddress, and for each key, we will store the owner's name address, so we put the value type as felt252.
+Line 10 - 13: We created an external function called set_map, which writes data to the blockchain, and passed self as a reference ref to the contract state and address, through which we'll write data as a key, then name, which we want to store as a value for the key. In Line 12, as you can see, while writing to the myMap variable and inputting the data passed in the function, we first added address as the key, followed by name, which is the value.
+Line 15 - 18: We created an external function called set_map, which retrieves data from the blockchain, and passed self and address through which we'll call the value associated with it very easily. In Line 17, as you can see, while reading the value from the myMap variable, we input address into it to get the value associated with this key (address).
+Now compile your code and send it to the Starknet network by clicking Declare, then deploy it to the network by clicking Deploy.
 
-- **السطر 1 - 2:** قمنا بالإعلان وإنشاء عقد ذكي يُدعى **mappings**.
-- **السطر 3:** قمنا باستدعاء **ContractAddress** من **starknet** والتي يتم استخدامها كنوع من البيانات وهي **address**.
-- **السطر 5 - 8:** قمنا بإنشاء **struct Storage** والذي يعمل على تخزين المتغيرات في **blockchain**. وفي **السطر 7** قمنا بإنشاء متغير **myMap** والذي يقوم بتخزين زوج بيانات (mapping) بحيث يصبح لكل قيمة مفتاح خاص بها. وكما تلاحظ من إجل الإعلان عن **mapping** قمن باستخدام كلمة **LegacyMap** ومن ثم قمنا بجعل نوع المفتاح هو **ContractAddress** والقيمة لكل مفتاح سنقوم بتخزين اسم مالك **address** فلذلك تم وضع نوع القيمة **felt252**.
-- **السطر 10 - 13:** قمنا بإنشاء دالة **set_map** خارجية والتي تعمل على تخزين البيانات على **blockchain** وقمنا بتمرير **self** كمرجعية **ref** لحالة العقد و **address** الذي نريد تخزين كمفتاح ومن ثم **name** الذي نريد تخزينه كقيمة للمفتاح. وفي **السطر 12** كما تلاحظ أثناء الكتابة على المتغير **myMap** وإدخال البيانات التي قمنا بتمريرها في الدالة قمنا بإضافة اولاً **address** كمفتاح وبجانبه **name** وهي القيمة.
-- **السطر 15 - 18:** قمنا بإنشاء دالة **set_map** خارجية والتي تعمل على إرجاع البيانات من **blockchain** وقمنا بتمرير **self** و **address** الذي عن طريقه سنقوم بإستدعاء القيمة المرتبطة به بكل سهوله. وفي **السطر 17** كما تلاحظ أثناء قراءة القيمة من المتغير **myMap** قمنا بإدخال **address** إليها من أجل جلب القيمة المتعلقة بهذا المفتاح (address).
+Note: When calling the value through Remix, it will appear in the bottom in hex format. You can copy it and convert it to a string value below:
 
-قُم الان بتجميع الكود الخاص بك وإرساله إلى شبكة **Starknet** عن طريق النقر على **Declare** ومن ثم نشره على الشبكة عن طريق النقر على **Deploy**.
+Using Trait and Impl in Smart Contracts
+It's highly important when writing smart contracts to think about using traits and impl to organize your smart contract and interfaces for external use.
 
-**ملاحظة:** أثناء إستدعاء القيمة بواسطة Remix سيظهر القيمة في الأسفل من النوع hex. يمكنك نسخها وتحويلها إلى قيمة نصية في الاسفل هنا:
+We'll build the first smart contract using trait and impl, and then you'll convert the rest of the smart contracts as a simple exercise to retain this in your memory.
 
-### إستخدام trait و impl في العقود الذكية
-
-من المهم للغاية أثناء كتابة العقود الذكية التفكير في إستخدام trait و impl من اجل تنظيم العقد الذكي الخاص بك والواجهات من أجل الإستخدام الخارجي.
-
-سنقوم ببناء العقد الذكي الاول بواسطة trait و impl ومن ثم ستقوم بتحويل بقية العقود الذكية كتمرين بسيط من أجل الإحتفاظ بهذا في ذاكرتك.
-
-قم بإنشاء ملف بإسم **contract2.cairo** على **Remix** و دعونا نقوم بالتحقق من المثال التالي:
-
+Create a file named contract2.cairo on Remix and let's check the following example:
 ```rust
 #[starknet::interface]
 trait IContract<TContractState> {
@@ -277,17 +231,16 @@ mod Contract {
 }
 ```
 
-**يبدو كل شيء واضح مع بعض الإختلافات, دعونا نقوم بتوضيح ذلك:**
+Everything seems clear with some differences, let's clarify:
 
-- **السطر 1 - 5:** قمنا بإنشاء **trait** بإسم **IContract** وقمنا بطلب تمرير قيمة بإسم **TContractState** والتي سنقوم بتمرير حالة العقد والبيانات أثناء إستخدام الواجهة (trait) وفي **السطر 3 و 4** قمنا بإنشاء الدالتين التي نريد تجميعهم في **trait** واستخدامهم بعد ذلك. وكما تلاحظ في **السطر 1** قمنا بإعلام مُشغل **statknet** بأن يقوم بالتعامل مع **trait** وكأنها واجهة عن طريق كتابة <span dir="ltr">**#[starknet::interface]**</span>.
-- **السطر 9:** قمنا باستدعاء الواجهة **IContract** باستخدام الكلمة **use** وبما أن الواجهة خارج العقد الذكي قمنا بإضافة كلمة **super**.
-- **السطر 11 - 14:** قمنا بإنشاء هيكل التخزين (**struct Storage**) وتعريف متغير بإسم **stored_data** من أجل تخزين قيمة عددية في **blockchain**.
-- **السطر 16 - 25:** الان قمنا بإنشاء **impl** بإسم **ContractImpl** وقمنا بإستدعاء الواجهة **IContract** في **impl** وتمرير حالة العقد (**ContractState**) الى الواجهة ومن ثم قمنا في بناء الدالتين الخاصة بنا كما قمنا في الاعلى. وكما تلاحظ في **السطر 16** قمنا بإعلام مُشغل **starknet** بأن يتعامل مع **impl** بشكل خارجي بحيث نتمكن من التفاعل مع الدوال وتخزين البيانات بشكل خارجي بواسطة <span dir="ltr">**#[abi(embed_v0)]**</span>
+Lines 1 - 5: We created a trait named IContract and specified to pass a value named TContractState, which we'll pass the contract state and data while using the interface (trait). In lines 3 and 4, we created the functions we want to include in the trait and use them afterward. As you can see in line 1, we informed the starknet compiler to treat the trait as an interface by writing #[starknet::interface].
+Line 9: We imported the IContract interface using the use keyword, and since the interface is outside the smart contract, we added the super keyword.
+Lines 11 - 14: We created the storage structure (struct Storage) and defined a variable named stored_data to store a numerical value on the blockchain.
+Lines 16 - 25: Now we created an impl named ContractImpl and invoked the IContract interface in impl and passed the contract state (ContractState) to the interface. Then we built our functions as we did above. As you can see in line 16, we informed the starknet compiler to treat the impl externally so that we can interact with the functions and store data externally using #[abi(embed_v0)].
+Now compile your code and send it to the Starknet network by clicking Declare, then deploy it to the network by clicking Deploy.
 
-قُم الان بتجميع الكود الخاص بك وإرساله إلى شبكة **Starknet** عن طريق النقر على **Declare** ومن ثم نشره على الشبكة عن طريق النقر على **Deploy**.
+Note: When calling the value through Remix, it will appear at the bottom in hex format. You can copy it and convert it to a numerical value below:
 
-**ملاحظة:** أثناء إستدعاء القيمة بواسطة Remix سيظهر القيمة في الأسفل من النوع hex. يمكنك نسخها وتحويلها إلى قيمة عددية في الاسفل هنا:
+To solidify this in your mind, try building some random ideas or converting previous examples as we did now and move on to the next exciting lesson.
 
-من أجل تثبيت ذلك في عقلك قم ببناء بعض الأفكار العشوائية او تحويل الامثلة السابقة كما قمنا الان وانتقل الى الدرس القادم المليء بالإثارة.
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+As always, if you have any questions or feel stuck or just want to say hello, feel free to join us on Discord https://discord.gg/xTyByNRemx, and we'll be more than happy to assist you!

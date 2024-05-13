@@ -1,170 +1,158 @@
-# إعداد بيئة تطوير Starknet على جهازك
+Setting up a Starknet development environment on your machine
 
-بعد أن عرفنا الكثير حول StarkNet يمكننا القفز باتجاه عالم StarkNet المثير للإهتمام بدًأ من إعداد بيئة التطوير حتى بناء المشاريع.
+Now that we know a lot about StarkNet, let's dive into the exciting world of StarkNet, from setting up your development environment to building projects.
+What is a Development Environment?
 
-## ما هي بيئة التطوير؟
+In order to run code, build projects, and deploy smart contracts, we need a development environment that helps us do all of this, and we need to set it up on our machines!
 
-من اجل تشغيل الاكواد الخاصة بناء والمشاريع ونشر العقود الذكية نحتاج إلى بيئة تطوير تساعدنا في فعل كل هذا ونحتاج إلى إعدادها في اجهزتنا!
+Throughout this course, you will need to install Scarb for project creation, Cairo language and smart contract compilation, Starkli for interacting with StarkNet directly and deploying smart contracts, and a wallet to represent your account on StarkNet. Don't worry, we will explain all of this in a very simple way during this lesson.
+Installing Scarb
 
-خلال هذه الدورة ستحتاج إلى تثبيت أداة **Scarb** من أجل إنشاء المشاريع وترجمة لغة **Cairo** والعقود الذكية, وأداة **Starkli** من أجل التعامل مع **StarkNet** مباشرة ونشر العقود الذكي, بالإضافة إلى محفظة لتمثيل حسابك في StarkNet. لا داعي للقلق سنقوم بشرح كل هذا بشكل بسيط للغاية خلال هذا الدرس.
+Installing scarb on Linux and MacOS is different than installing it on Windows, so make sure to follow the commands for your system that we will provide here.
+Linux and MacOS Users
 
-## تثبيت اداة Scarb
+Installation Steps:
 
-تثبيت اداة **scarb** في اجهزة Linux و MacOS يختلف عن تثبيتها في Windows فلذلك قم بإستخدام الأوامر المناسبة لنظامك التي سنقوم بإضافتها هنا.
+    Open your terminal and run this command:
 
-### مستخدمين أنظمة Linux و MacOS
+bash
 
-**خطوات التثبيت:**
-
-1- ستقوم بفتح terminal وتشغيل هذا الأمر
-
-```bash
 curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh
-```
 
-2- قم بإعادة فتح **terminal** وقم بتشغيل الأمر التالي للتحقق من التثبيت
+    Reopen your terminal and run the following command to check the installation:
 
-```bash
+bash
+
 scarb --version
-```
 
-سيقوم بإظهار إصدار كل من scarb و cairo وإلخ…
+It will show you the version of scarb, cairo, etc...
+Windows Users
 
-### مستخدمين نظام Windows
+Installation Steps:
 
-**خطوات التثبيت:**
+    First, you will download the folder containing scarb dependencies from here: <a href="https://docs.swmansion.com/scarb/download.html#precompiled-packages" target="_blank">https://docs.swmansion.com/scarb/download.html#precompiled-packages&lt;/a>
 
-1- ستقوم اولاً بتحميل المجلد الذي يحتوي على تبعيات scarb من هنا: <a href="https://docs.swmansion.com/scarb/download.html#precompiled-packages" target="_blank">https://docs.swmansion.com/scarb/download.html#precompiled-packages</a>
+<img src="https://web3arabs.com/courses/starknet/scarb-windows.png&quot;/>
 
-<img src="https://web3arabs.com/courses/starknet/scarb-windows.png"/>
+    Unzip the folder and copy the bin and doc folders inside it.
 
-2- ستقوم بفك ضغط المجلد وستقوم بنسخ المجلدات التي في الداخل bin و doc.
+    Go to your C drive -> Create a new folder called scarb -> Paste the folders you copied in step 2 inside the new folder.
 
-3- ستقوم بفتح **القرص C** - وستقوم بإنشاء مجلد بإسم **scarb** ومن ثم ستقوم بلصق المجلدات التي قمت بنسخها في الخطوة 2 بداخل المجلد الجديد.
+    The hard part is done! Open your cmd or terminal and run this command:
 
-5- لقد انتهينا من الجزء الأصعب! قم بفتح cmd او terminal وستقوم بتشغيل هذا الأمر:
+bash
 
-```bash
-setx PATH "C:\scarb\bin"
-```
+setx PATH &quot;C:\scarb\bin&quot;
 
-6- ستقوم الآن بفتح **cmd** او **termnal** من جديد من أجل التحقق من اكتمال تثبيت الأداة على جهازك. قم بتشغيل هذا الأمر:
+    Now open your cmd or terminal again to check if the installation is complete on your machine. Run this command:
 
-```bash
+bash
+
 scarb --version
-```
 
-سيقوم بإظهار إصدار كل من scarb و cairo وإلخ…
+It will show you the version of scarb, cairo, etc...
 
-<img src="https://web3arabs.com/courses/starknet/scarb-version.png"/>
+<img src="https://web3arabs.com/courses/starknet/scarb-version.png&quot;/>
 
-عمل رائع!
+Great job!
+Installing Starkli
 
-## تثبيت اداة Starkli
+As usual, installing starkli on Linux and MacOS is different than installing it on Windows, so make sure to follow the commands for your system that we will provide here.
+Linux and MacOS Users
 
-كما هو الحال, تثبيت اداة starkli في اجهزة Linux و MacOS يختلف عن تثبيتها في Windows فلذلك قم بإستخدام الأوامر المناسبة لنظامك التي سنقوم بإضافتها هنا.
+    You can install Starkli environment using Starkliup by following this command. Open your terminal and run this command:
 
-### مستخدمين أنظمة Linux و MacOS
+bash
 
-1- يمكنك تثبيت بيئة Starkli باستخدام Starkliup بمساعدة الأمر التالي. ستقوم بفتح terminal وتشغيل هذا الأمر:
-
-```bash
 curl https://get.starkli.sh | sh
-```
 
-2- - قم بإعادة فتح terminal وقم بتشغيل الأمر التالي من أجل تثبيت starkli:
+    Reopen your terminal and run the following command to install starkli:
 
-```bash
+bash
+
 starkliup
-```
 
-3- قم بإعادة فتح terminal وقم بتشغيل الأمر التالي للتحقق من التثبيت
+    Reopen your terminal and run the following command to check the installation:
 
-```bash
+bash
+
 starkli --version
-```
 
-### مستخدمين نظام Windows
+Windows Users
 
-سنقوم بتثبيت **starkli** عن طريق **cargo** لكونها أسهل الطرق.
+We will install starkli using cargo as it is the easiest way.
 
-1- اولاً قم بتثبيت لغة rust على نظامك من أجل تشغيل cargo يمكنك <a href="https://www.youtube.com/watch?v=92HoSWgsx-4&t=3s" trget="_blank">متابعة هذا الفيديو</a> ومن ثم يمكنك إكمال الخطوات التالية.
+    First, install rust on your system in order to run cargo, you can <a href="https://www.youtube.com/watch?v=92HoSWgsx-4&amp;t=3s" trget="_blank">follow this video</a> and then you can complete the following steps.
 
-2- ستقوم الآن بفتح cmd او terminal من أجل تثبيت **starkli** عن طريق تشغيل هذا الأمر:
+    Now open your cmd or terminal to install starkli by running this command:
 
-```bash
+bash
+
 cargo install --locked --git https://github.com/xJonathanLEI/starkli
-```
 
-3- ستقوم بإعادة فتح cmd او terminal وتشغيل الأمر التالي:
+    Reopen your cmd or terminal and run the following command:
 
-```bash
+bash
+
 starkli --version
-```
 
-<img src="https://web3arabs.com/courses/starknet/starkli-version.png"/>
+<img src="https://web3arabs.com/courses/starknet/starkli-version.png&quot;/>
 
-إنه يعمل! قم بتجربة تشغيل scarb مرة اخرى. في حال لم تستطيع تثبيت اي من الادوات التاليه قم بطرح مشكلتك على <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> أو <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a>.
+It works! Try running scarb again. In case you failed to install any of the tools, feel free to ask your question on <a href="https://discord.gg/xTyByNRemx" target="_blank">Discord</a>
 
-## إعداد محفظة ArgentX
+##Setting Up ArgentX Wallet##
 
-إنها واحدة من المحافظ الأكثر شعبية والمجانية على Starknet.
+It is one of the most popular and free wallets on Starknet.
 
-يمكنك إضافتها بسهولة باستخدام ملحق المتصفح. ما عليك سوى <a href="https://chromewebstore.google.com/detail/argent-x/dlcobpjiigpikoobohmabehhmhfoodbb" target="_blank">الانتقال إلى هذا الرابط</a> ثم إضافتها إلى المتصفح الخاص بك.
+You can easily add it using a browser extension. Simply <a href="https://chromewebstore.google.com/detail/argent-x/dlcobpjiigpikoobohmabehhmhfoodbb" target="_blank">go to this link</a> and add it to your browser.
 
-<img src="https://web3arabs.com/courses/starknet/argent-ex.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-ex.png&quot;/>
 
-بمجرد إضافة ملحق **ArgentX** إلى المتصفح، ستتم إعادة توجيهك إلى صفحة جديدة. انقر فوق إنشاء محفظة جديدة، وإقبل الشروط والأحكام، ثم قم بإضافة كلمة المرور الخاصة بك. وسيتم إنشاء محفظتك بكل سهولة.
+Once you add the ArgentX extension to your browser, you will be redirected to a new page. Click on create a new wallet, accept the terms and conditions, and add your password. Your wallet will be created easily.
 
-<img src="https://web3arabs.com/courses/starknet/argent-ex2.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-ex2.png&quot;/>
 
-الآن، سيبدو حساب **ArgentX** الخاص بك مشابهًا كما هو موضح أدناه.
+Now, your ArgentX account will look something like this.
 
-<img src="https://web3arabs.com/courses/starknet/argent-ex3.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-ex3.png&quot;/>
+Getting Some Test Tokens
 
-## جمع بعض عملات الإختبار
+Now, it's time to get some test tokens, so we can deploy our contracts on Starknet.
 
-الآن، حان الوقت للحصول على بعض العملات الاختبارية، حتى نتمكن من نشر عقودنا على Starknet.
+Here is a simple step-by-step guide:
 
-**فيما يلي دليل بسيط خطوة بخطوة:**
+    Open your ArgentX wallet. <br/>
+    Change the network to Testnet, which is usually located at the top right corner. It will ask you to create an account on testnet. So, after creating it, your network will be set to Testnet.
 
-● قم بفتح محفظتك على ArgentX. <br/>
-● قم بتغيير الشبكة إلى Testnet، والتي عادة ما تكون موجودة في الزاوية اليمنى العليا. سيطلب منك إنشاء حساب على testnet. لذلك، بعد الإنشاء، سيتم تعيين شبكتك على Testnet.
+<img src="https://web3arabs.com/courses/starknet/argent-ex4.png&quot;/>
 
-<img src="https://web3arabs.com/courses/starknet/argent-ex4.png"/>
+    Go to <a href="https://web3arabs.com/faucets/starknet-goerli" target="_blank">https://web3arabs.com/faucets/starknet-goerli&lt;/a> using your web browser. This faucet will help you get some test tokens in your Testnet account - Connect your wallet to the faucet and click on the Send button.
 
-انتقل إلى <a href="https://web3arabs.com/faucets/starknet-goerli" target="_blank">https://web3arabs.com/faucets/starknet-goerli</a> باستخدام متصفح الويب الخاص بك. سوف يساعدك هذا الصنبور بالحصول على بعض عملات الإختبار في حساب Testnet الخاص بك - قم بتوصيل محفظتك بالصنبور وإنقر على الزر **إرسال**.
+<img src="https://web3arabs.com/courses/starknet/goerli.png&quot;/>
 
-<img src="https://web3arabs.com/courses/starknet/goerli.png"/>
+Now, all you have to do is wait for the transaction to complete. Check your wallet after a few moments, you will see at least 0.001 added to your wallet.
+Deploying Your Account as a Contract on the Network
 
-الآن، كل ما عليك فعله هو الانتظار حتى تكتمل المعاملة. تحقق من محفظتك بعد لحظات، سترى ما لا يقل عن 0.001 تم إضافته إلى محفظتك.
+Now that we have some test tokens, we will deploy our account on the network as a smart contract.
 
-## نشر الحساب كعقد على الشبكة
+Open your Argent X wallet and click on the settings button at the top right. Then click on Account:
 
-بعد أن حصلنا على بعض من العملات الإختبارية سنقوم بنشر الحساب على الشبكة كعقد ذكي.
+<img src="https://web3arabs.com/courses/starknet/argent-account.png&quot;/>
 
-قم بفتح محفظة **Argent X** ومن ثم النقر على زر الإعدادات في الجزء الأيمن بالأعلى. ومن ثم النقر على الحساب:
+Now you will click on the Deploy account button in order to deploy your account on the network as a smart contract:
 
-<img src="https://web3arabs.com/courses/starknet/argent-account.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-deploy-account.png&quot;/>
 
-ستقوم الآن بالنقر على الزر **Deploy account** من أجل نشر الحساب على الشبكة كعقد ذكي:
+Just click on Confirm to confirm and it will deploy your account on the network directly:
 
-<img src="https://web3arabs.com/courses/starknet/argent-deploy-account.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-confirm-account.png&quot;/>
+How to Reveal Your Private Key
 
-فقط قم بالنقر على **Confirm** للتأكيد وسيقوم بنشر الحساب على الشبكة مباشرة:
+In order to retrieve your account's private key, you will click on the settings button and then click on your account and then click on the Export private key button:
 
-<img src="https://web3arabs.com/courses/starknet/argent-confirm-account.png"/>
+<img src="https://web3arabs.com/courses/starknet/argent-account2.png&quot;/>
 
-## طريقة إظهار المفتاح الخاص
+Never share your private key with anyone. We will use it while deploying smart contracts in the upcoming lessons.
+What We Covered
 
-من أجل استدعاء المفتاح الخاص بالحساب ستقوم بالنقر على زر الإعدادات وبعدها النقر على حسابك ومن ثم النقر على زر Export private key:
-
-<img src="https://web3arabs.com/courses/starknet/argent-account2.png"/>
-
-لا تقوم بمشاركة المفتاح الخاص مع أي أحد على الإطلاق. سنقوم باستخدامه اثناء نشر العقود الذكية في الدروس القادمة.
-
-## ما قمنا بشرحه
-
-في هذا الدرس قمنا بتوضيح طريقة إعداد البيئة الإفتراضية للبدء في البناء على StarkNet بالإضافة إلى طريقة الحصول على العملات الإختبارية ومن ثم نشر حساب المحفظة الخاص بك على الشبكة كعقد ذكي وطريقة إظهار المفتاح الخاص المتعلق بمحفظتك.
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+In this lesson, we explained how to set up your development environment to start building on StarkNet, how to get test tokens, how to deploy your

@@ -1,39 +1,36 @@
-# مقدمة إلى مشروع StarkEx
+Introduction to StarkEx Project
 
-مشروع **StarkEx** عبارة عن **validity-rollup** مُستقل (**zkRollup**) كخدمة أو كتطبيق. لديها بعض أوجه التشابه والاختلاف الرئيسية مقارنة بـ **StarkNet** وسلاسل **zkRollup** الأخرى.
+The StarkEx project is an independent validity-rollup (zkRollup) as a service or application. It has some key similarities and differences compared to StarkNet and other zkRollup chains.
 
-على عكس **StarkNet**، وهي من حلول الطبقة الثانية (zkRollup) ذات أغراض عامة (يمكن استخدامها في العديد من الأشياء)، فإن **StarkEx** عبارة عن إطار عمل لإنشاء حلول مرخصة خاصة بالتطبيقات.
+Unlike StarkNet, which is a general-purpose (can be used for many things) layer 2 solution (zkRollup), StarkEx is a framework for building application-specific licensed solutions.
 
-تم نشر **StarkEx** على الشبكة الرئيسية منذ يونيو 2020 ويعمل على تشغيل بعض التطبيقات الأكثر شيوعًا مثل ImmutableX و dYdX و Sorare و Myria و DeversiFi والمزيد.
+StarkEx has been deployed on the mainnet since June 2020 and powers some of the most popular applications such as ImmutableX, dYdX, Sorare, Myria, DeversiFi, and more.
 
-## لماذا StarkEx؟
+Why StarkEx?
 
-باختصار، من الصعب إنشاء مُثبتات إثبات ZK أي (ZK proof provers) للأغراض العامة. بينما كانت StarkWare والشركات الأخرى تبني حلول ZK للأغراض العامة، أطلقت شركة StarkWare مشروع StarkEx في عام 2020 كحل توسيع محدد ومصرح به للتطبيق.
+In short, creating general-purpose ZK proof provers is challenging. While StarkWare and other companies were building ZK solutions for general purposes, StarkWare launched the StarkEx project in 2020 as a specific and approved scaling solution for applications.
 
-على عكس StarkNet، يُعد StarkEx مناسبًا لحالات استخدام معينة - ولكنه مناسب حقًا لتلك الحالات. حاليًا، تدعم StarkEx إنشاء تطبيقات تتعامل مع الرموز المميزة ETH و ERC-20 و ERC-721 و ERC-1155. على وجه التحديد، فهو يدعم التطبيقات التي تريد تمكين التداول الفوري أو التداول الدائم.
+Unlike StarkNet, StarkEx is suitable for specific use cases - but it's really good for those cases. Currently, StarkEx supports the creation of applications dealing with ETH, ERC-20, ERC-721, and ERC-1155 tokens. Specifically, it supports applications that want to enable instant trading or perpetual trading.
 
-يحدد كل تطبيق يعتمد على StarkEx منطق العمل الخاص به ويعمل على خدمة StarkEx. يحتوي النظام على مكون خارج السلسلة ومكون متصل به.
+Each application relying on StarkEx defines its own logic and interacts with the StarkEx service. The system consists of an off-chain component and an on-chain component.
 
-### مكونات StarkEx
+StarkEx Components
+The off-chain component in StarkEx (layer 2) is responsible for:
 
-يكون المُكون الموجود خارج السلسلة (off-chain) (الطبقة الثانية) في StarkEx مسؤولاً عن:
+Maintaining the current state of orders (e.g., an NFT list).
+Executing transactions in the system.
+Sending updates to the on-chain component.
+The on-chain component in StarkEx (layer 1) is responsible for:
 
-1. الاحتفاظ بالحالة الحالية للطلبات (مثل قائمة NFT).
-2. تنفيذ المعاملات في النظام.
-3. إرسال التحديثات إلى المُكون الموجود على السلسلة.
+Enforcing the validity of state changes through STARK proofs.
+Holding state commitments and system assets.
+Managing accounts on-chain (layer 1).
+Transitioning to StarkNet
 
-يكون المُكون الموجود على السلسلة (on-chain) (الطبقة الأولى) مسؤولاً عن:
+As mentioned earlier, StarkEx is an application-specific solution while StarkNet is designed for general purposes.
 
-1. فرض صحة تغييرات الحالة من خلال براهين STARK.
-2. عقد التزامات الحالة وأصول النظام.
-3. إدارة الحسابات على السلسلة (الطبقة الأولى).
+At the time of writing this report, StarkNet had a mainnet alpha network, but it hadn't been classified as stable yet.
 
-## الإنتقال إلى StarkNet
+Once StarkNet reaches maturity and is considered stable, decentralized applications built on StarkEx can choose to transition to StarkNet if they wish.
 
-كما ذكرنا من قبل، فإن **StarkEx** هو تطبيق محدد بينما يتم تصميم **StarkNet** ليكون للأغراض العامة.
-
-في وقت كتابة هذا التقرير، كان لدى **StarkNet** شبكة ألفا الرئيسية، ولكن لم يتم تصنيفها على أنها مستقرة بعد.
-
-بمجرد وصول **StarkNet** إلى مرحلة النضج واعتبارها مستقرة، يمكن للتطبيقات اللامركزية المبنية على **StarkEx** اختيار الانتقال إلى **StarkNet** إذا كانت ترغب في ذلك.
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+As always, if you have any questions, feel stuck, or just want to say hi, join us on <a href="https://discord.gg/xTyByNRemx" target="_blank">Discord</a>, and we'll be more than happy to help!

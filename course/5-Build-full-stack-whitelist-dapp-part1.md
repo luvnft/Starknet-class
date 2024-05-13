@@ -1,34 +1,31 @@
-# بناء عقد ذكي لمشروع Whitelist بإستخدام ادوات Starknet
+Building a Smart Contract for a Whitelist Project Using Starknet Tools
 
-في هذا الدرس سنقوم ببناء مشروع **Whitelist** على شبكة **Starknet** بإستخدام لغة **Cairo** وأدوات **Scarb** و **Starkli** ومن ثم في الدرس القادم سنقوم بربط العقد الذكي بالواجهة الامامية بإستخدام إطار العمل Next.js.
+In this lesson, we will build a Whitelist project on the Starknet network using the Cairo language and the Scarb and Starkli tools. In the next lesson, we will connect the smart contract to the front-end interface using the Next.js framework.
 
-## المتطلبات الاساسية للبدء في هذا الدرس:
+Basic Requirements to Get Started with this Lesson:
 
-1. انتهيت من تثبيت <a href="/courses/3d88b1a4-ad68-400b-94d3-df89a5f95cfd/lessons/9022a977-02a7-4014-8e11-1ebb7a38be71" target="_blank">بيئة تطوير Starknet</a>.
-2. يمكنك التعامل مع <a href="/courses/3d88b1a4-ad68-400b-94d3-df89a5f95cfd/lessons/c8786613-1ab3-4ad4-ab54-456b7ac44337" target="_blank">لغة البرمجة Cairo</a>.
-3. يمكنك <a href="/courses/3d88b1a4-ad68-400b-94d3-df89a5f95cfd/lessons/56465070-18f4-4ca6-b80f-2be8a41a3da2" target="_blank">كتابة عقود بواسطة لغة Cairo</a>.
+You have completed the setup of the Starknet development environment.
+You are familiar with the Cairo programming language.
+You can write contracts using Cairo.
+Project Setup
 
-## إعداد المشروع
+Open a terminal and create a folder named whitelist_starknet:
 
-ستقوم بفتح terminal وإنشاء مجلد بإسم **whitelist_starknet**:
-
-```bash
+bash
+Copy code
 mkdir whitelist_starknet & cd whitelist_starknet
-```
+Initialize the Scarb project by entering this command:
 
-إنشاء مشروع **scarb** عن طريق إدخال هذا الأمر:
-
-```bash
+bash
+Copy code
 scarb init
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/create-project.png"/>
+Smart Contract
 
-## العقد الذكي
+To set up and run smart contracts, first open the Scarb.toml file and make it look like this:
 
-من أجل إعداد العقود الذكية وتشغيلها ستقوم اولا بفتح ملف **Scarb.toml** وجعله بهذا الشكل:
-
-```toml
+toml
+Copy code
 [package]
 name = "starknet_whitelist"
 version = "0.1.0"
@@ -42,17 +39,15 @@ starknet = "2.3.1"
 sierra-replace-ids = true
 
 [[target.starknet-contract]]
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/scarb-toml.png"/>
+Now, create a file named whitelist.cairo in the src folder and write the smart contract in this file.
 
-الآن سنقوم بإنشاء ملف **whitelist.cairo** في المجلد src وسنقوم بكتابة العقد الذكي في هذا الملف.
+The idea of the smart contract is to add people to a whitelist assuming we have a product, and the first 10 people or any number we specify can get the product for free.
 
-فكرة العقد الذكي سنقوم بضم اشخاص الى قائمة بافتراض أن لدينا منتج, و أول 10 اشخاص او اي عدد نقوم بتحديده يستطيع الحصول على المنتج مجاناً.
+Copy the following smart contract code into the whitelist.cairo file and then follow the explanation of the contract directly below the code:
 
-قم بنسخ كود العقد الذكي التالي الى الملف **whitelist.cairo** ومن ثم قم بمتابعة العقد الذكي اسفل الكود مباشرة:
-
-```rust
+rust
+Copy code
 use starknet::ContractAddress;
 
 #[starknet::interface]
@@ -110,188 +105,162 @@ mod Whitelist {
     }
   }
 }
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/whitelist-file.png"/>
+Let's explain each line:
 
-**دعونا نقوم بتوضيح كل سطر:**
+● Line 1: We import ContractAddress from starknet, which acts as a data type.
+● Lines 3 - 9: We created an interface (trait) named IWhitelist and included four functions allowing us to: add an address to the whitelist, check if an address has joined, get the number of addresses whitelisted, and get the maximum number of addresses allowed.
+● Lines 11 and 12: We declared the smart contract named Whitelist.
+● Line 13: We imported ContractAddress and get_caller_address from starknet. ContractAddress acts as a data type representing an address, and get_caller_address fetches the address connected to the contract during execution (data storage).
+● Lines 15 - 20: We want to store three variables in the blockchain:
 
-● **السطر 1:** نقوم باستدعاء **ContractAddress** من **starknet** والتي تعمل كنوع بيانات.
-● **السطر 3 - 9:** قمنا بإنشاء واجهة (trait) بإسم **IWhitelist** وقمنا بجمع الدوال فيها والتي هم 4 دوال حيث تسمح لنا الدالة الأولى بإضافة الشخص إلى القائمة (**whitelist**) - والثانية تقوم بالتحقق هل قام الشخص من الإنضمام او لا - والثالثة عدد الأشخاص الذين انضموا إلى whitelist - والرابعة عدد الأشخاص الذين يستطيعون الانضمام كحد أقصى.
-● **السطر 11 و 12:** قمنا بالإعلان عن العقد الذكي بإسم **Whitelist**.
-● **السطر 13:** قمنا باستدعاء **ContractAddress** و **get_caller_address** من **starknet** - حيث تعمل **ContractAddress** كنوع بيانات وهي **address** - و **get_caller_address** حيث يقوم بجلب ال **address** المتصل بالموقع او العقد أثناء الكتابة (تخزين البيانات).
-● **السطر 15 - 20:** نريد تخزين ثلاثة متغيرات في **blockchain** وهم - المتغير **whitelistedAddresses** والذي يقوم بتخزين **mapping** بحيث يقوم بتخزين **عنوان الشخص كمفتاح** والقيمة عبارة عن **bool** والتي تحدد هل انضم (**true**) او لا (**false**) - والمتغير **maxWhitelistedAddresses** الحد الأقصى لعدد الأشخاص المسموح للإنضمام - والمتغير **numAddressesWhitelisted** والتي تحدد عدد الأشخاص الذين انضموا بحيث في كل مرة ينضم شخص ستزداد قيمة **المتغير** بواحد.
-● **السطر 22 - 25:** نقوم بالإعلان عن دالة **constructor** التي سنقوم من خلالها بتمرير الحد الأقصى المسموح للإنضمام أثناء نشر العقد الذكي. وكما تلاحظ قمنا بتمرير <span dir="ltr">**_maxWhitelistedAddresses**</span> وكتابة القيمة في المتغير **maxWhitelistedAddresses**.
-● **السطر 27 - 28:** قمنا بإنشاء **impl** خارجي بإسم **WhitelistImpl** وقمنا باستدعاء الواجهة **IWhitelist** في **impl** وتمرير حالة العقد (**ContractState**) الى الواجهة ومن ثم قمنا في بناء الأربعة دوال بكل سهولة.
-● **السطر 29 - 43:** قمنا ببناء دالة **add_address_to_whitelist** بكل بساطة وقمنا بإضافة شروط بحيث لا يبدأ في تنفيذ الدالة إلا بالتحقق منها اولا عن طريق **assert** - يعبر الشرط الأول بحيث يقوم بالتحقق من أن الشخص الذي يريد الإنضمام لم ينضم من قبل والشرط الثاني يقوم بالتحقق ما إذا كان عدد الأشخاص الذين انضموا إلى **whitelist** أقل من الحد الأقصى. وفي **السطر 39** قمنا بإضافة الشخص الى **whitelist** بحيث العنوان المتصل بالعقد كمفتاح وقيمة **true** هي القيمة التي تعبر عن إنضمام الشخص. وفي **السطر 41** قمنا باستدعاء عدد المنضمين إلى المتغير **numAddresses** من اجل ان نقوم بزيادة واحد في كل مرة ينضم إليها الشخص في **السطر 42**.
-● **السطر 45 - 55:** قمنا بإنشاء 3 دوال بحيث في الدالة الاولى تعيد قيمة ما إذا العنوان الذي قمنا بتمرير قد انضم أو لا - والدالة الثانية تقوم بإرجاع عدد الأشخاص الذين انضموا إلى **whitelist** - والدالة الثالثة تقوم بإرجاع الحد الأقصى من عدد الأشخاص الذين يمكنهم الانضمام.
+whitelistedAddresses, which stores a mapping where the address of the person serves as a key, and the value is a bool indicating whether they joined (true) or not (false).
+maxWhitelistedAddresses, the maximum number of allowed joiners.
+numAddressesWhitelisted, indicating the number of people who joined. Each time a person joins, this variable increments by one.
+● Lines 22 - 25: We declared a constructor function to pass the maximum allowed joiners when deploying the smart contract. As you see, we passed _maxWhitelistedAddresses and wrote the value into the maxWhitelistedAddresses variable.
+● Lines 27 - 28: We created an external impl named WhitelistImpl and invoked the IWhitelist interface within impl, passing the contract state (ContractState) to the interface. Then, we built the four functions easily.
+● Lines 29 - 43: We built the add_address_to_whitelist function simply and added conditions to ensure its execution starts only after verification using assert. The first condition checks whether the person trying to join hasn't already joined, and the second condition checks if the number of people whitelisted is less than the maximum limit. In line 39, we added the person to the whitelist, where the connected contract address serves as the key, and the value true indicates the person's joining. In line 41, we fetched the number of joiners from the numAddresses variable to increase it by one each time a person joins.
+● Lines 45 - 55: We created three functions:
+The first function returns whether the passed address has joined or not.
+The second function returns the number of people who joined the whitelist.
+The third function returns the maximum number of people allowed to join.
+Rewrite the contract again to understand everything written simply.
 
-قم بكتابة العقد مرة أخرى من أجل فهم كل ما تم كتابته بكل بساطة.
+As we discussed earlier, the main file for reading Cairo language files in the src folder is the lib.cairo file. Therefore, we will import the whitelist.cairo file into the lib.cairo file using modules (mod) and then include the file name:
 
-كما تحدثنا سابقاً الملف الاساسي لقراءة ملفات لغة cairo في المجلد **src** هو الملف **lib.cairo** فلذلك سنقوم باستدعاء ملف **whitelist.cairo** في الملف **lib.cairo** بواسطة الوحدات (**mod**) ومن ثم إدخال إسم الملف:
-
-```rust
+rust
+Copy code
 mod whitelist;
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/lib-file.png"/>
+Creating RPC API
 
-## إنشاء RPC API
+To start interacting with your wallet account and deploying your smart contract, we need an RPC API that will act as a node (computer).
 
-من أجل البدء في التعامل مع حساب محفظتك ونشر عقدك الذكي فنحن بالحاجة إلى **RPC API** والذي سيعمل كعُقدة (جهاز كمبيوتر).
+We will use Infura to get the API for the Starknet network. So, create an account directly, and let's continue.
 
-سنقوم بإستخدام **Infura** للحصول على **API** لشبكة **Starknet** فلذلك قم بإنشاء حساب مباشرة ودعونا نكمل.
-
-بعد ان تكمل من إنشاء حساب ويتم تحويلك إلى لوحة التحكم ستقوم بإنشاء مشروع وإضافة إسم له ومن ثم النقر على **CREATE**:
+After you finish creating an account and are redirected to the dashboard, create a project and add a name to it, then click CREATE:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/infura-create-project.png"/>
-
-بعد إنشاء المشروع سيظهر لك انواع الشبكات التي تريد تشغيلها. ستذهب للأسفل قليلاً وستقوم باختيار شبكة **GOERLI** في **Starknet**:
-
+After creating the project, you will see the networks you want to run. Scroll down a bit and choose the GOERLI network in Starknet:
 <img src="https://web3arabs.com/courses/starknet/dapp/infura-select-goerli.png"/>
-
-بعد تحديد الشبكة ستقوم بالنقر على حفظ التعديلات في الأعلى:
+After selecting the network, click on "Save changes" at the top:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/infura-save.png"/>
-
-بعد النقر على حفظ التعديلات سيقوم في إعادتك مباشرة على الصفحة التي تحتوي على الرابط الخاص في مشروعك ستقوم بحفظه في جهازك لاننا سنعود إليه قريباً:
+After saving the changes, you will be redirected back to the page containing the link specific to your project. Save this link on your device because we will need it soon:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/infura-api.png"/>
+Connecting the Wallet to the Project
 
-## ربط المحفظه في المشروع
+To connect your wallet account to the project, we'll create the wallet signature in the keystore and then easily retrieve the wallet data.
 
-من أجل ربط حساب المحفظة في المشروع سنقوم بإنشاء توقيع المحفظة في **keystore** ومن ثم استدعاء بيانات المحفظة بكل سهولة.
+Create the folders to store wallet data in the project by entering this command first:
 
-ستقوم بإنشاء المجلدات لتخزين بيانات المحفظة في المشروع عن طريق إدخال هذا الامر اولا:
-
-```bash
+bash
+Copy code
 mkdir -p ./starkli-wallets/deployer
-```
+And on Mac and Linux:
 
-وفي أجهزة Mac و Linux:
-
-```bash
+bash
+Copy code
 mkdir -p ~/.starkli-wallets/deployer
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/create-wallet-folder.png"/>
+Now, create a keystore file by running this command:
 
-الآن سنقوم بإنشاء ملف **keystore** عن طريق تشغيل هذا الأمر:
-
-```bash
+bash
+Copy code
 starkli signer keystore from-key ./starkli-wallets/deployer/keystore.json
-```
+And on Mac and Linux:
 
-وفي أجهزة Mac و Linux:
-
-```bash
+bash
+Copy code
 starkli signer keystore from-key ~/.starkli-wallets/deployer/keystore.json
-```
-
-سيقوم بطلب منك إدخال المفتاح الخاص المتعلق بمحفظتك ستقوم بإدخال ومن ثم ستقوم بإدخال كلمة سر سيقوم بطلبها في كل مرة تريد التعامل مع المحفظة مثل نشر العقد الذكي فلذلك قم بحفظها وسيتم إنشاء ملف **keystore.json** في المجلد **deployer** مباشرة.
+You'll be prompted to enter the private key associated with your wallet. After entering it, you'll be asked for a password, which will be requested each time you interact with the wallet, such as deploying the smart contract. So, make sure to remember it. The keystore.json file will be created directly in the deployer folder.
 
 <img src="https://web3arabs.com/courses/starknet/dapp/create-keystore.png"/>
+Now, retrieve the wallet account data simply by running this command:
 
-الآن سنقوم باستدعاء بيانات حساب المحفظة بكل بساطة عن طريق إدخال هذا الأمر:
-
-```bash
+bash
+Copy code
 starkli account fetch WALLET_ADDRESS --output ./starkli-wallets/deployer/account.json --rpc RPC_API
-```
+And on Mac and Linux:
 
-وفي أجهزة Mac و Linux:
-
-```bash
+bash
+Copy code
 starkli account fetch WALLET_ADDRESS --output ~/.starkli-wallets/deployer/account.json --rpc RPC_API
-```
-
-ستقوم بإستبدال **WALLET_ADDRESS** في عنوان محفظتك العام (الاساسي) واستبدال **RPC_API** في الرابط الذي قمت بإنشائه في الأعلى.
+Replace WALLET_ADDRESS with your public wallet address and RPC_API with the link you generated earlier.
 
 <img src="https://web3arabs.com/courses/starknet/dapp/fetch-account.png"/>
+You'll notice that an account.json file has been created in the deployer folder.
 
-وبهذا الشكل ستلاحظ أنه قد تم إنشاء ملف **account.json** في المجلد **deployer**.
+Setting up ENV Variables
 
-## إعداد بيئة ENV
+Now that we have all the wallet data in the project and the RPC API link, we'll store all of this in variables in the env for easy deployment of our smart contract later.
 
-بعد ان اصبح لدينا جميع بيانات المحفظة في المشروع ورابط **RPC API**, سنقوم بتخزين كل هذا في متغيرات في **env** من اجل أن نتمكن من نشر عقدنا الذكي بكل سهولة بعد ذلك.
+On Mac and Linux, enter these commands in the terminal:
 
-في اجهزة Mac و Linux ستقوم بإدخال هذه الأوامر في **terminal**:
-
-```bash
+bash
+Copy code
 export STARKNET_ACCOUNT=~/.starkli-wallets/deployer/account.json
 export STARKNET_KEYSTORE=~/.starkli-wallets/deployer/keystore.json
 export STARKNET_RPC=RPC_API_URL
-```
+And on Windows, enter these commands in the terminal:
 
-وفي أجهزة Windows ستقوم بإدخال هذه الأوامر في **terminal**:
-
-```bash
+bash
+Copy code
 set STARKNET_ACCOUNT=./starkli-wallets/deployer/account.json
 set STARKNET_KEYSTORE=./starkli-wallets/deployer/keystore.json
 set STARKNET_RPC=RPC_API_URL
-```
-
-ستقوم بإدخال رابط **RPC API** في المتغير **STARKNET_RPC**.
+Replace the RPC API link with your RPC_API variable.
 
 <img src="https://web3arabs.com/courses/starknet/dapp/set-env.png"/>
+Note: Do not close the terminal. You'll need to add these variables again each time you close it.
 
-**ملاحظة:** لا تقوم بإغلاق terminal وفي كل مرة تقوم بإغلاق terminal ستحتاج إلى إضافة هذه مرة اخرى.
+Compiling and Deploying the Smart Contract
 
-## تجميع ونشر العقد الذكي
+Now, let's test and compile the smart contract by running this command:
 
-ستقوم بتجربة العقد الذكي وتجميعه عن طريق إدخال هذا الأمر:
-
-```bash
+bash
+Copy code
 scarb build
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/scarb-build.png"/>
+You'll notice that a target folder has been created, containing a dev folder with 2 files.
 
-ستلاحظ تم إنشاء مجلد **target** وفي داخله مجلد **dev** يحتوي على 2 ملفات.
+As mentioned in the previous lesson, to deploy the smart contract on the network, we need to send the code to the network through a process called Declare and then create an instance of it on the network to interact with it through Deploy.
 
-كما تحدثنا في الدرس السابق من أجل  نشر (**Deploy**) العقد الذكي على الشبكة نحن بالحاجة إلى إرسال الكود إلى الشبكة عن طريق ما يسمى **Declare** ومن ثم إنشاء مثيل له على الشبكة من أجل التفاعل معها عن طريق **Deploy**.
+Send the smart contract code to the network by running this command:
 
-ستقوم بإرسال العقد الذكي إلى الشبكة عن طريق تشغيل هذا الأمر:
-
-```bash
+bash
+Copy code
 starkli declare target/dev/starknet_whitelist_Whitelist.contract_class.json --compiler-version=2.4.0
-```
+And on Mac and Linux:
 
-وفي أجهزة Mac و Linux:
-
-```bash
+bash
+Copy code
 starkli declare ~/.target/dev/starknet_whitelist_Whitelist.contract_class.json
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/declare-contract.png"/>
+After sending the code to the network, copy the Class hash and then deploy the smart contract on the network by running this command:
 
-بعد إن قمت بإرسال الكود إلى الشبكة ستقوم بنسخ **Class hash** ومن ثم نشر العقد الذكي على الشبكة عن طريق تشغيل هذا الأمر:
-
-```bash
+bash
+Copy code
 starkli deploy CLASS_HASH ARG
-```
-
-ستقوم بإستبدال **CLASS_HASH** في **class hash** الذي تم إنشاؤه أثناء إرسال العقد الذكي إلى الشبكة. وبالنسبة إلى **ARG** ستقوم باستبدالها بالقيم التي تريد تمريرها في العقد الذكي. وبما أننا في العقد الذكي قمنا بتمرير المتغير <span dir="ltr">**_maxWhitelistedAddresses**</span> سنقوم بتمرير قيمة لهذا المتغير.
+Replace CLASS_HASH with the class hash generated when sending the smart contract code to the network. As for ARG, replace it with the values you want to pass in the smart contract. Since we passed the variable <span dir="ltr">_maxWhitelistedAddresses</span> in the smart contract, we'll pass a value for this variable.
 
 <img src="https://web3arabs.com/courses/starknet/dapp/deploy-contract.png"/>
+As you can see, we passed the value 10 for the <span dir="ltr">_maxWhitelistedAddresses</span> variable defined in the constructor function.
 
-كما تلاحظ قمنا بتمرير قيمة 10 في المتغير <span dir="ltr">**_maxWhitelistedAddresses**</span> الذي قمنا بتعريفه في الدالة **constructor**.
+Copy the address of your smart contract and go to <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a> and paste the smart contract address in the search bar to open it directly.
 
-ستقوم بنسخ عنوان العقد الذكي الخاص بك وستذهب إلى <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a> وستقوم بوضع عنوان العقد الذكي في شريط البحث وسيتم فتحه مباشرة.
+Accessing the ABI
 
-## الوصول إلى ABI
-
-بعد إن قمت بفتح العقد الذكي الخاص بك على <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a>:
+After opening your smart contract on <a href="testnet.starkscan.co" target="_blank">testnet.starkscan.co</a>:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/starkscan-contarct.png"/>
-
-ستقوم بالنقر على **Class Code/History**:
+Click on Class Code/History:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/starkscan-abi.png"/>
-
-ستقوم الآن بنسخ **ABI** عن طريق النقر على الزر **Copy API Code** وستعود إلى المشروع الخاص بك وستقوم بإنشاء ملف بإسم **abi.json** وستقوم بإضافة كل ما نسخته إلى الملف:
+Now, copy the ABI by clicking the Copy API Code button, then go back to your project and create a file named abi.json. Paste everything you copied into this file:
 
 <img src="https://web3arabs.com/courses/starknet/dapp/abi-file.png"/>
+We'll use this file in the next lesson when interacting with the smart contract in the front-end.
 
-سنقوم بإستخدام الملف في الدرس القادم أثناء التفاعل مع العقد الذكي في الواجهة الأمامية.
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+As always, if you have any questions, feel stuck, or just want to say hello, join us on <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> or <a href="https://discord.gg/xTyByNRemx" target="_blank">Discord</a> 

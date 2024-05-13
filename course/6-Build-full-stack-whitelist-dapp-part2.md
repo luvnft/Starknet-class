@@ -1,243 +1,215 @@
-# بناء الواجهة الأمامية لمشروع Whitelist بواسطة Nextjs
+Building the Frontend Interface for the Whitelist Project using Next.js
 
-بعد ان انتهينا من كتابة عقدنا الذكي وتجربته بشكل كامل واختباره يمكننا الان رؤيته يعمل على الواجهة الامامية (Front-end).
+Now that we've finished writing and testing our smart contract thoroughly, we can see it in action on the frontend.
 
-## المتطلبات الاساسية للبدء في هذا الدرس:
+##Basic Requirements to Start this Lesson:##
 
-1. انتهيت من قراءة درس <a href="https://web3arabs.com/courses/3d88b1a4-ad68-400b-94d3-df89a5f95cfd/lessons/66915c5e-6a7e-433c-a5ee-b072009342d1" target="_blank">**بناء عقد ذكي لمشروع Whitelist**</a>
-2. يمكنك التعامل مع لغة البرمجة **JavaScript**.
-3. يمكنك التعامل مع <a href="https://web3arabs.com/courses/d64bee08-2e38-4ad5-958e-5ab6c42ebb41/lessons/bb49c32a-911f-4a71-b6e5-3c5f5f981360" target="_blank">**مكتبة React/Nextjs**</a>.
+You've completed the lesson on Building a Smart Contract for the Whitelist Project.
+You're familiar with the JavaScript programming language.
+You're comfortable working with the React/Next.js library.
+In this lesson, we'll use the Next.js framework and TailwindCSS to build the website interface.
 
-في هذا الدرس سنقوم بإستخدام إطار العمل Next.js و TailwindCSS من اجل بناء واجهة الموقع.
+Run this command in your starknet_whitelist project folder:
 
-قم بتشغيل هذا الامر في مجلد المشروع **starknet_whitelist**:
-
-```bash
+bash
+Copy code
 npx create-next-app@latest frontend
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/create-next.png"/>
+Now, we need to install starknet.js and get-starknet, which will help us interact with the smart contract, send transactions, and connect the wallet to the website. Type this in the terminal:
 
-سنحتاج الان الى تثبيت **starknet.js** و **get-starknet** والتي ستساعدنا في التعامل مع العقد الذكي وإرسال المعاملات وربط المحفظة بالموقع. قم بكتابة هذا على **terminal**:
+Note: Make sure to run this command in the frontend folder related to the Next.js project.
 
-**ملاحظة:** تأكد من تشغيل هذا الأمر في المجلد **frontend** المتعلق بمشروع Next.js.
-
-```bash
+bash
+Copy code
 npm install starknet get-starknet
-```
+Navigate to the app folder and open the globals.css file. Keep these commands in the file:
 
-ستذهب الى مجلد **app** وستقوم بفتح الملف **globals.css** وستبقي هذه الاوامر في الملف:
-
-```css
+css
+Copy code
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-```
-
 <img src="https://web3arabs.com/courses/starknet/dapp/globals-css.png"/>
+Now, go to the page.js file in the app folder and paste this code, following the explanations in the comments above each line:
 
-الان اذهب الى الملف **page.js** في المجلد **app** وقم بلصق هذا الكود ومتابعة الشرح من التعليقات المتواجدة اعلى كل سطر.
-
-```jsx
+jsx
+Copy code
 "use client"
 import { useState, useEffect } from 'react'
-// الخاص بالعقد الذكي الذي قمنا بحفظه في نهاية الدرس السابق ABI إستدعاء
+// Import the ABI of the smart contract we saved at the end of the previous lesson
 import contractAbi from '../../abi.json'
-// والتي تعمل على ربط المحفظة get-starknet من المكتبة connect إستدعاء دالة
+// Import the connect function from the get-starknet library, which connects the application to the wallet
 import { connect } from 'get-starknet'
-// الذي يعمل للتفاعل والعمل على العقد الذكي Contract الذي يعمل كمُزود وProvider إستدعاء
+// Import the Contract and Provider from starknet.js library, which act as a provider and interact with the smart contract
 import { Contract, Provider } from 'starknet'
 
 export default function Home() {
-  // ستقوم بوضع عنوان عقدك الذكي هنا من اجل استخدامه لاحقاً
+  // Place your smart contract address here for later use
   const contractAddress = "add_contract_address_here"
-  // الذي قمنا بإنشائه سابقاً هنا RPC API ستقوم بوضع رابط
+  // Place your RPC API link here for later use
   const RPC_API = "add_infura_rpc_api_url_here"
 
-  // ستقوم بتخزين عنوان المحفظة التي ستتصل بالتطبيق
+  // Store the connected wallet address
   const [account, setAccount] = useState(null)
-  // تخزين التحقق من اتصال المحفظة
+  // Store whether the wallet is connected or not
   const [walletConnected, setWalletConnected] = useState(false)
-  // او لا whitelist تخزين التحقق ما إذا كان المستخدم انضم إلى
+  // Store whether the user has joined the whitelist or not
   const [joinedWhitelist, setJoinedWhitelist] = useState(false)
-  // سنقوم بإستخدامها من اجل الحالات التي بالحاجة الى إنتظار
+  // Store whether the app is loading or not for handling waiting states
   const [loading, setLoading] = useState(false)
-  // Whitelist تخزين عدد الذي انضموا إلى
+  // Store the number of addresses whitelisted
   const [numberOfWhitelisted, setNumberOfWhitelisted] = useState(0)
-  // تخزين اقصى عدد الأشخاص الذين يمكنهم الإنضمام
+  // Store the maximum number of people who can join
   const [maxNumberOfWhitelisted, setMaxNumberOfWhitelisted] = useState(0)
 
-  // تعمل هذه الوظيفة على مراقبة اتصال المحفظة بالتطبيق بشكل مستمر
+  // This function continuously monitors the connection of the wallet to the application
   const connectWallet = async () => {
-    // بربط التطبيق بالمحفظة connect تقوم دالة
+    // Connect the application to the wallet
     const connection = await connect()
 
-    // إضافة شرط بالتحقق من إنتهاء ربط المحفظة بنجاح
+    // Add a condition to check if the wallet is successfully connected
     if (connection && connection.isConnected) {
-      // تخزين عنوان محفظة المتصل بالتطبيق
+      // Store the wallet address connected to the application
       setAccount(connection.account)
       setWalletConnected(true)
     }
   }
 
-  // تقوم الدالة بإستدعاء العدد الأقصى للاشخاص الذين يمكنهم الإنضمام
+  // This function calls the maximum number of people who can join
   const getMaxNumberOfWhitelisted = async () => {
     try {
-      // من اجل التفاعل مع العقد الذكي وقراءة البيانات من البلوكتشين Provider يتم إستخدام
+      // Use Provider to interact with the smart contract and read data from the blockchain
       const provider = new Provider({ rpc: { nodeUrl: RPC_API } })
-      // Provider والعنوان والمُزود ABI قمنا بإستدعاء العقد الذكي الخاص بنا عن طريق إدخال
+      // Create an instance of our smart contract by providing ABI, contract address, and provider
       const mycontract = new Contract(contractAbi, contractAddress, provider)
-      // get_max_addresses إستدعاء القيمة من الدالة
+      // Call the value from the function get_max_addresses
       const num = await mycontract.get_max_addresses()
-      // تخزين القيمة
+      // Store the value
       setMaxNumberOfWhitelisted(num.toString())
     } catch (err) {
-      // يقوم بطباعة اي مشكلة قد تحدث اثناء تشغيل الدالة
+      // Print any issues that may occur while running the function
       alert(err.message)
     }
   }
 
-  // Whitelist تقوم الدالة بإستدعاء عدد الأشخص الذي انضموا إلى
+  // This function calls the number of people who have joined the whitelist
   const getNumberOfWhitelisted = async () => {
     try {
-      // من اجل التفاعل مع العقد الذكي وقراءة البيانات من البلوكتشين Provider يتم إستخدام
+      // Use Provider to interact with the smart contract and read data from the blockchain
       const provider = new Provider({ rpc: { nodeUrl: RPC_API } })
-      // Provider والعنوان والمُزود ABI قمنا بإستدعاء العقد الذكي الخاص بنا عن طريق إدخال
+      // Create an instance of our smart contract by providing ABI, contract address, and provider
       const mycontract = new Contract(contractAbi, contractAddress, provider)
-      // get_num_addresses إستدعاء القيمة من الدالة
+      // Call the value from the function get_num_addresses
       const num = await mycontract.get_num_addresses()
-      // تخزين القيمة
+      // Store the value
       setNumberOfWhitelisted(num.toString())
     } catch (err) {
-      // يقوم بطباعة اي مشكلة قد تحدث اثناء تشغيل الدالة
+      // Print any issues that may occur while running the function
       alert(err.message)
     }
   }
 
   const checkIfAddressInWhitelist = async () => {
     try {
-      // من اجل التفاعل مع العقد الذكي وقراءة البيانات من البلوكتشين Provider يتم إستخدام
+      // Use Provider to interact with the smart contract and read data from the blockchain
       const provider = new Provider({ rpc: { nodeUrl: RPC_API } })
-      // Provider والعنوان والمُزود ABI قمنا بإستدعاء العقد الذكي الخاص بنا عن طريق إدخال
+      // Create an instance of our smart contract by providing ABI, contract address, and provider
       const mycontract = new Contract(contractAbi, contractAddress, provider)
-      // check_address إستدعاء القيمة من الدالة
-      // check_address كما تلاحظ قمنا أيضاً بتمرير عنوان المحفظة المتصلة بالموقع إلى الدالة
+      // Call the value from the function check_address
+      // Note that we also pass the address of the wallet connected to the site to the function
       const check = await mycontract.check_address(account.address)
-      // تخزين القيمة
+      // Store the value
       setJoinedWhitelist(check)
     } catch (err) {
-      // يقوم بطباعة اي مشكلة قد تحدث اثناء تشغيل الدالة
+      // Print any issues that may occur while running the function
       alert(err.message)
     }
   }
 
-  // whitelist تعمل الدالة على إضافة المتصل بالموقع إلى
+  // This function adds the user connected to the site to the whitelist
   const addAddressToWhitelist = async () => {
     try {
-      // وعنوان العقد الذكي وحساب محفظة المتصل ABI قمنا بإستدعاء العقد الذكي الخاص بنا عن طريق إدخال
-      // لان الهدف الكتابة على العقد فنحن بالحاجة إلى توقيع المستخدم Provider كما تلاحظ لم نقوم بإدخال
+      // Create an instance of our smart contract by providing ABI, contract address, and the account of the connected wallet
+      // As we are writing to the contract, we need the user's signature
       const contract = new Contract(contractAbi, contractAddress, account)
-      // كحالة إنتظار loading تفعيل
+      // Activate loading state as a waiting condition
       setLoading(true)
-      // add_address_to_whitelist بواسطة دالة whitelist إضافة المستخدم إلى
+      // Call the add_address_to_whitelist function via the whitelist function to add the user
       await contract.add_address_to_whitelist()
-      // يقوم بطباعة النص عند الإنتهاء من إضافة الشخص
+      // Print the message when the person is successfully added
       alert("You successfully incremented the counter!")
-      // لكونه أنتهئ من إضافة الشخص loading إيقاف
+      // Stop loading as the person has been added
       setLoading(false)
     } catch (err) {
-      // يقوم بطباعة اي مشكلة قد تحدث اثناء تشغيل الدالة
+      // Print any issues that may occur while running the function
       alert(err.message)
-      // لكون الدالة توقفت عن العمل بسبب مشكلة ما loading إيقاف
+      // Stop loading as the function has stopped due to some issue
       setLoading(false)
     }
   }
+The array at the end of the function call represents what state changes will lead to this change. In this case, whenever the values of the two functions change, this change will be directly invoked.
 
-  // تمثل المصفوفة في نهاية استدعاء الوظيفة ما هي تغييرات الحالة التي ستؤدي إلى هذا التغيير
-  // في هذه الحالة كلما تغيرت قيم الوظيفتين سيتم استدعاء هذا التغيير مباشرة
-  useEffect(() => {
-    connectWallet()
-    getMaxNumberOfWhitelisted()
-    getNumberOfWhitelisted()
+jsx
+Copy code
+useEffect(() => {
+  connectWallet()
+  getMaxNumberOfWhitelisted()
+  getNumberOfWhitelisted()
 
-    if(walletConnected) {
-      checkIfAddressInWhitelist()
-    }
-    
-  }, [walletConnected])
+  if(walletConnected) {
+    checkIfAddressInWhitelist()
+  }
+  
+}, [walletConnected])
+React monitors the state of the button, and you can read it well and understand what happens as a developer.
 
-  // React يقوم بمراقبة حالة الزر يمكنك قرائته بشكل جيد وفهم ما يحدث كمطور
-  const renderButton = () => {
-    if (walletConnected) {
-      if (joinedWhitelist) {
-        return (
-          <div className="text-[1.2rem] my-8 leading-[1]">
-            Thanks for joining the Whitelist!
-          </div>
-        )
-      } else if (loading) {
-        return <div className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]">Loading...</div>;
-      } else {
-        return (
-          <button 
-            onClick={addAddressToWhitelist} 
-            className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]"
-          >
-            Join the Whitelist
-          </button>
-        )
-      }
+jsx
+Copy code
+const renderButton = () => {
+  if (walletConnected) {
+    if (joinedWhitelist) {
+      return (
+        <div className="text-[1.2rem] my-8 leading-[1]">
+          Thanks for joining the Whitelist!
+        </div>
+      )
+    } else if (loading) {
+      return <div className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]">Loading...</div>;
     } else {
       return (
-        <button onClick={connectWallet} className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]">
-          Connect your wallet
+        <button 
+          onClick={addAddressToWhitelist} 
+          className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]"
+        >
+          Join the Whitelist
         </button>
       )
     }
+  } else {
+    return (
+      <button onClick={connectWallet} className="rounded-[4px] bg-blue-800 border-none text-white text-[15px] p-[20px] w-[200px] cursor-pointer mb-[2%]">
+        Connect your wallet
+      </button>
+    )
   }
-
-  return (
-    <div>
-      <div style={{ fontFamily: '"Courier New", Courier, monospace' }} className="min-h-[90vh] flex flex-row justify-center items-center">
-        <div>
-          <h1 className="text-[2rem] my-8">Welcome to Starknet Devs!</h1>
-          <div className="text-[1.2rem] my-8 leading-[1]">
-            Its an Whitelist collection for developers in Starknet.
-          </div>
-          <div className="text-[1.2rem] my-8 leading-[1]">
-            {numberOfWhitelisted}/{maxNumberOfWhitelisted} have already joined the Whitelist.
-          </div>
-          {renderButton()}
-        </div>
-      </div>
-    </div>
-  )
 }
-```
+The above code succinctly handles the execution of the smart contract or project we built (Whitelist) on the frontend, allowing the user to connect their wallet, add tasks, update them, and remove them.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/page-file.png"/>
-
-يعمل الكود السابق بإختصار شديد على تشغيل العقد الذكي او المشروع الذي قمنا ببناء عقده (**Whitelist**) في الواجهة الامامية بحيث يتمكن المستخدم من ربط محفظته واضافة المهام وتحديثها وازالتها.
-
-```js
-// ستقوم بوضع عنوان عقدك الذكي هنا من اجل استخدامه لاحقاً
+js
+Copy code
+// Place your smart contract address here for later use
 const contractAddress = "add_contract_address_here"
-// الذي قمنا بإنشائه سابقاً هنا RPC API ستقوم بوضع رابط
+// Place your RPC API link here for later use
 const RPC_API = "add_infura_rpc_api_url_here"
-```
+First, we added our smart contract address that we deployed on the starknet goerli test network to the variable (contractAddress), and then we added the RPC API link we created in the previous lesson.
 
-لقد قمنا أولاً بإضافة عنوان العقد الذكي الخاص بنا الذي قمنا بنشره على شبكة **starknet goerli** الإختبارية في المتغير (**contractAddress**) ومن ثم قمنا بإضافة رابط **RPC API** الذي قمنا بإنشائه في الدرس السابق.
+You can now test your application on - <a href="http://localhost:3000" target="_blank">localhost:3000</a> - by entering this command:
 
-يمكنك تجربة تطبيقك الان على - <a href="http://localhost:3000" target="_blank">localhost:3000</a> - عن طريق إدخال هذا الأمر:
-
-```bash
+bash
+Copy code
 npm run dev
-```
+It's working! You have successfully built a DApp application 🥳🥳
 
-إنه يعمل, لقد انتهيت من بناء تطبيق DApps بنجاح 🥳🥳
+You can directly access the project on <a href="https://github.com/Web3Arabs/Whitelist-Dapp" target="_blank">GitHub here</a>.
 
-<img src="https://web3arabs.com/courses/starknet/dapp/frontend-home.png"/>
-
-يمكنك الوصول الى المشروع بشكل مباشر على <a href="https://github.com/Web3Arabs/Whitelist-Dapp" target="_blank"> GitHub من هنا</a>
-
-كما هو الحال دائمًا، إذا كانت لديك أي أسئلة أو شعرت بالتعثر أو أردت فقط أن تقول مرحبًا، فقم بالإنضمام على <a href="https://t.me/Web3ArabsDAO" target="_blank">Telegram</a> او <a href="https://discord.gg/ykgUvqMc4Q" target="_blank">Discord</a> وسنكون أكثر من سعداء لمساعدتك!
+As always, if you have any questions, feel stuck, or just want to say hi, join us on <a href="https://discord.gg/xTyByNRemx" target="_blank">Discord</a>, and we'll be more than happy to help!
